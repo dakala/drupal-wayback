@@ -79,6 +79,7 @@ function user_setHistory(&$user, $field, $value) {
   $user->history = $rval;
 
   // save new history:
+  $query = "";
   $query .= "UPDATE users SET ";
   foreach ($user->field as $key=>$field) { $value = $user->$field; $query .= "$field = '". addslashes($value) ."', "; }
   $query .= " id = $user->id WHERE id = $user->id";

@@ -30,7 +30,7 @@
     ?>
      <HTML>
      <HEAD>
-      <TITLE><?php echo $site_name; ?></TITLE>
+      <TITLE><?php print $site_name; ?></TITLE>
       <META NAME="description" CONTENT="drop.org">
       <META NAME="keywords" CONTENT="drop, weblog, portal, community, news, article, announcements, stories, story, computer, science, space, hype, cult, geek, nerd, foo, bar">
      </HEAD>
@@ -44,10 +44,11 @@
        BIG { font-size: 10pt; }
       -->
      </STYLE>
-     <BODY TEXT="#000000" BGCOLOR="<?php print $this->clc0; ?>" ALINK="#000000" LINK="#404040" VLINK="#404040" MARGINHEIGHT="10" MARGINWIDTH="10">
+     <BODY TEXT="#000000" BGCOLOR="<?php echo $this->clc0; ?>" ALINK="#000000" LINK="#404040" VLINK="#404040" MARGINHEIGHT="10" MARGINWIDTH="10">
+
      <TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" ALIGN=CENTER>
-     <TR><TD BGCOLOR="<?php print $this->cl00; ?>"><IMG SRC="themes/<?php print $this->themename; ?>/images/null.gif" WIDTH="10"></TD><TD BGCOLOR="<?php print $this->clc0; ?>"><IMG SRC="themes/<?php print $this->themename; ?>/images/null.gif" WIDTH="4"></TD>
-     <TD BGCOLOR="<?php print $this->cl80; ?>">
+     <TR><TD BGCOLOR="<?php echo $this->cl00; ?>"><IMG SRC="themes/<?php print $this->themename; ?>/images/null.gif" WIDTH="10"></TD><TD BGCOLOR="<?php print $this->clc0; ?>"><IMG SRC="themes/<?php print $this->themename; ?>/images/null.gif" WIDTH="4"></TD>
+     <TD BGCOLOR="<?php echo $this->cl80; ?>">
       <TABLE BORDER="0" CELLPADDING="0" CELLSPACING="9" BGCOLOR="<?php print $this->cl80; ?>">
        <TR>
         <TD COLSPAN="2"><IMG SRC="themes/<?php print $this->themename; ?>/images/logo.gif" ALT="drop.org logo"></TD>

@@ -109,9 +109,11 @@ function discussion_display($sid, $pid, $cid, $level = 0) {
   else $theme->article($story, "[ <A HREF=\"\"><FONT COLOR=\"$theme->hlcolor2\">home</FONT></A> | <A HREF=\"discussion.php?op=reply&sid=$story->id&pid=0\"><FONT COLOR=\"$theme->hlcolor2\">add a comment</FONT></A> ]");
 
   // Display `comment control'-box:
-  if ($user->id) $theme->commentControl($sid, $title, $threshold, $mode, $order);
+  $title = $story? $story->subject : "";
+  if ($user && $user->id) $theme->commentControl($sid, $title, $threshold, $mode, $order);
 
   // Compose query:
+  $query = "";
   $query .= "SELECT c.*, u.* FROM comments c LEFT JOIN users u ON c.author = u.id WHERE c.sid = $sid AND c.pid = $pid AND (c.votes = 0 OR c.score / c.votes >= $threshold)";
   if ($order == 1) $query .= " ORDER BY c.timestamp DESC";
   if ($order == 2) $query .= " ORDER BY c.score DESC";
@@ -159,13 +161,14 @@ function discussion_reply($pid, $sid) {
     $theme->article($item, "");
   }
 
+  $output = "";
   // Build reply form:
   $output .= "<FORM ACTION=\"discussion.php\" METHOD=\"post\">\n";
 
   // Name field:
   $output .= "<P>\n";
   $output .= " <B>Your name:</B><BR>\n";
-  $output .= format_username($user->userid);
+  $output .= $user ? format_username($user->userid) : "";
   $output .= "</P>\n";
 
   // Subject field:
@@ -177,7 +180,7 @@ function discussion_reply($pid, $sid) {
   // Comment field:
   $output .= "<P>\n";
   $output .= " <B>Comment:</B><BR>\n";
-  $output .= " <TEXTAREA WRAP=\"virtual\" COLS=\"50\" ROWS=\"10\" NAME=\"comment\">". check_textarea($user->signature) ."</TEXTAREA><BR>\n";
+  $output .= " <TEXTAREA WRAP=\"virtual\" COLS=\"50\" ROWS=\"10\" NAME=\"comment\">". check_textarea($user ? $user->signature : '') ."</TEXTAREA><BR>\n";
   $output .= " <SMALL><I>Allowed HTML tags: ". htmlspecialchars($allowed_html) .".</I></SMALL>\n";
   $output .= "</P>\n";
 
@@ -200,6 +203,7 @@ function comment_preview($pid, $sid, $subject, $comment) {
   // Preview comment:
   $theme->comment(new Comment($user->userid, $subject, $comment, time(), $user->url, $user->fake_email, "", "", ""), "reply to this comment");
 
+  $output = "";
   // Build reply form:
   $output .= "<FORM ACTION=\"discussion.php\" METHOD=\"post\">\n";
 
@@ -274,7 +278,7 @@ function comment_post($pid, $sid, $subject, $comment) {
   }
 }
 
-global $pid, $sid, $subject, $comment, $mode, $order, $threshold, $moderate, $op;
+global $id, $pid, $sid, $subject, $comment, $mode, $order, $threshold, $moderate, $op;
 
 include "includes/common.inc";
 include "includes/comment.inc";
