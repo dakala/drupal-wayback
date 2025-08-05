@@ -2,7 +2,7 @@
 INSERT INTO `users`
     (`id`, `name`, `userid`, `passwd`, `real_email`, `fake_email`, `url`, `stories`, `mode`, `sort`, `threshold`, `bio`, `theme`, `signature`, `last_access`, `last_host`, `permissions`, `status`, `history`, `hash`, `timezone`)
 VALUES
-    (1,'','admin','*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19','admin@example.com','','',10,'',0,0,NULL,'','',NULL,'',0,1,NULL,'9e10edfbcb6b',NULL);
+    (1,'','admin','*DDFB542AA0BD1D251995D81AEBEB96DEEAD1132F','admin@example.com','','',10,'',0,0,NULL,'','',NULL,'',0,1,NULL,'9e10edfbcb6b',NULL);
 
 
 INSERT INTO `stories`
