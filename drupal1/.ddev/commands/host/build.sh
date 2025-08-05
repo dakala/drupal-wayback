@@ -4,5 +4,5 @@
 ## Usage: build
 ## Example: "ddev build"
 
-mysql db < ./database/database.mysql
-mysql db < ./database/data.sql
+ddev start
+ddev run-sql
