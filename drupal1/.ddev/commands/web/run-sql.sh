@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Description: Create data tables.
+## Description: Create database tables.
 ## Usage: run-sql
 ## Example: "ddev run-sql"
 
