@@ -756,7 +756,7 @@ function node_search($op = 'search', $keys = null) {
 /**
  * Implementation of hook_user().
  */
-function node_user($op, &$edit, &$user) {
+function node_user($op, $edit, $user) {
   if ($op == 'delete') {
     db_query('UPDATE {node} SET uid = 0 WHERE uid = %d', $user->uid);
     db_query('UPDATE {node_revisions} SET uid = 0 WHERE uid = %d', $user->uid);
@@ -1040,7 +1040,8 @@ function node_filter_form() {
 /**
  * Theme node administration filter form.
  */
-function theme_node_filter_form(&$form) {
+function theme_node_filter_form($form) {
+  $output = "";
   $output .= '<div id="node-admin-filter">';
   $output .= form_render($form['filters']);
   $output .= '</div>';
@@ -1051,7 +1052,8 @@ function theme_node_filter_form(&$form) {
 /**
  * Theme node administraton filter selector.
  */
-function theme_node_filters(&$form) {
+function theme_node_filters($form) {
+  $output = "";
   $output .= '<ul>';
   if (sizeof($form['current'])) {
     foreach (element_children($form['current']) as $key) {
