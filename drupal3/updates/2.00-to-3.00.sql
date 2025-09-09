@@ -20,7 +20,7 @@ CREATE TABLE book (
 CREATE TABLE story (
   lid int(10) unsigned DEFAULT '0' NOT NULL auto_increment,
   nid int(10) unsigned DEFAULT '0' NOT NULL,
-  abstract text NOT NULL,
+  abstrakt text NOT NULL,
   body text NOT NULL,
   section varchar(64) DEFAULT '' NOT NULL,
   PRIMARY KEY (lid)

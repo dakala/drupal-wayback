@@ -17,17 +17,19 @@ function system_perm() {
 }
 
 function system_link($type) {
+  $links = array();
   if ($type == "admin" && user_access("administer settings and filters")) {
     $links[] = "<a href=\"admin.php?mod=system\">settings and filters</a>";
   }
 
-  return $links ? $links : array();
+  return $links;
 }
 
 function system_view_options() {
   global $conf, $cmodes, $corder, $themes;
 
   // general settings:
+  $output = "";
   $output .= "<h3>General settings</h3>\n";
   $output .= form_textfield("Name", "site_name", variable_get("site_name", "drupal"), 30, 55, "The name of this website.");
   $output .= form_textfield("E-mail address", "site_mail", variable_get("site_mail", "root@localhost"), 35, 55, "A valid e-mail address for this website, used by the auto-mailer to create new user accounts.");
@@ -81,6 +83,7 @@ function system_view_options() {
 }
 
 function system_view_filters() {
+  $output = "";
   foreach (module_list() as $name) {
     if (module_hook($name, "conf_filters")) {
       $output .= module_invoke($name, "conf_filters");
@@ -117,6 +120,7 @@ function system_view($type) {
 }
 
 function system_modules() {
+  $output = "";
   $output .= "<table border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n";
   $output .= " <tr><th>module</th><th colspan=\"2\">operations</th></tr>\n";
   foreach (module_list() as $name) {

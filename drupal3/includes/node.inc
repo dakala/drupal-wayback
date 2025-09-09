@@ -1,14 +1,14 @@
 <?php
 
-$status = array(dumped => 0, expired => 1, queued => 2, posted => 3);
-$rstatus = array(0 => dumped, 1 => expired, 2 => queued, 3 => posted);
+$status = array('dumped' => 0, 'expired' => 1, 'queued' => 2, 'posted' => 3);
+$rstatus = array(0 => 'dumped', 1 => 'expired', 2 => 'queued', 3 => 'posted');
 
 function _node_get($conditions) {
   foreach ($conditions as $key=>$value) $cond[] = "n.". check_query($key) ." = '". check_query($value) ."'";
   $where = implode(" AND ", $cond);
 
-  if ($conditions[type]) {
-    $type = $conditions[type];
+  if ($conditions['type']) {
+    $type = $conditions['type'];
   }
   else {
     $node = db_fetch_object(db_query("SELECT n.type FROM node n WHERE $where"));
@@ -162,7 +162,7 @@ function node_form($node) {
 }
 
 function node_status($value) {
-  $status = array(dumped, expired, queued, posted);
+  $status = array('dumped', 'expired', 'queued', 'posted');
   if (module_exist($value)) {
     return array_intersect($status, node_invoke($value, "status"));
   }
@@ -197,6 +197,7 @@ function node_control($node) {
     $choices = array("node.php?id=$node->nid" => t("view node"), "node.php?op=history&id=$node->nid" => t("view history"));
   }
 
+  $output = "";
   $output .= "<FORM METHOD=\"get\" ACTION=\"\">\n";
   foreach ($choices as $key => $value) $options .= "<OPTION VALUE=\"$key\"". (strstr($REQUEST_URI,"/$key") ? " SELECTED" : "") .">". check_form($value) ."</OPTION>\n";
   $output .= " <SELECT NAME=\"op\" ONCHANGE=\"visit(this.options[this.selectedIndex].value)\">$options</SELECT>\n";

@@ -1,4 +1,13 @@
-<?
+<?php
+
+// dakala - todo:
+extract($_SERVER);
+
+function _printr($str) {
+  echo '<textarea cols="100" rows="10">';
+  print_r($str);
+  echo '</textarea>';
+}
 
 function conf_init() {
   global $HTTP_HOST, $REQUEST_URI;
@@ -34,7 +43,8 @@ function error_handler($errno, $message, $filename, $line, $variables) {
 
 function watchdog($type, $message) {
   global $user;
-  db_query("INSERT INTO watchdog (user, type, message, location, hostname, timestamp) VALUES ('$user->id', '". check_input($type) ."', '". check_input($message) ."', '". check_input(getenv("REQUEST_URI")) ."', '". check_input(getenv("REMOTE_ADDR")) ."', '". time() ."')");
+  $uid = $user ? $user->id : '';
+  db_query("INSERT INTO watchdog (user, type, message, location, hostname, timestamp) VALUES ('". $uid ."', '". check_input($type) ."', '". check_input($message) ."', '". $_SERVER['REQUEST_URI'] ."', '". $_SERVER['REMOTE_ADDR'] ."', '". time() ."')");
 }
 
 function throttle($type, $rate) {
@@ -107,6 +117,7 @@ function format_info($body, $block) {
 }
 
 function format_rss_channel($title, $link, $description, $items, $language = "en") {
+  $output = "";
   $output .= "<channel>\n";
   $output .= " <title>". htmlentities(strip_tags($title)) ."</title>\n";
   $output .= " <link>". htmlentities(strip_tags($link)) ."</link>\n";
@@ -119,6 +130,7 @@ function format_rss_channel($title, $link, $description, $items, $language = "en
 }
 
 function format_rss_item($title, $link, $description) {
+  $output = "";
   $output .= "<item>\n";
   $output .= " <title>". htmlentities(strip_tags($title)) ."</title>\n";
   $output .= " <link>". htmlentities(strip_tags($link)) ."</link>\n";
@@ -321,13 +333,14 @@ function link_page() {
 }
 
 function link_node($node) {
+  $links = array();
   foreach (module_list() as $name) {
     if (module_hook($name, "link")) {
       $links = array_merge($links, module_invoke($name, "link", "node", $node));
     }
   }
 
-  return $links ? $links : array();
+  return $links;
 }
 
 function timer_start() {

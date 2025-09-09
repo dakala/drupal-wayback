@@ -1,24 +1,24 @@
 <?php
 
 class Poll {
-  function Poll($poll) {
-    $this = new Node($poll);
-    $this->runtime = $poll[runtime];
-    $this->active = $poll[active];
-    $this->voters = $poll[voters];
-    $this->choice = $poll[choice];
-    $this->chvotes = $poll[chvotes];
-    $this->chid = $poll[chid];
+  function Poll($_poll) {
+    $poll = new Node($_poll);
+    $poll->runtime = $_poll['runtime'];
+    $poll->active = $_poll['active'];
+    $poll->voters = $_poll['voters'];
+    $poll->choice = $_poll['choice'];
+    $poll->chvotes = $_poll['chvotes'];
+    $poll->chid = $_poll['chid'];
   }
 }
 
 function poll_cron() {
   $result = _node_get(array("type" => "poll"));
   while ($poll = db_fetch_array($result)) {
-    if (($poll[active]) && ($poll[runtime])) {
-      if (($poll[timestamp] + $poll[runtime]) < time()) {
-        $poll[active] = 0;
-        node_save($poll, array(active));
+    if (($poll['active']) && ($poll['runtime'])) {
+      if (($poll['timestamp'] + $poll['runtime']) < time()) {
+        $poll['active'] = 0;
+        node_save($poll, array('active'));
       }
     }
   }

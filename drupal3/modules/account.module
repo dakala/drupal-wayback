@@ -45,6 +45,7 @@ function account_link($type) {
 }
 
 function account_conf_options() {
+  $output = "";
   $output .= form_select(t("Public accounts"), "account_register", variable_get("account_register", 1), array("Disabled", "Enabled"), "If enabled, everyone can create a new user account.  If disabled, new user accounts can only be created by site administrators.");
   return $output;
 }
@@ -76,6 +77,7 @@ function account_ac() {
 
   foreach ($access as $value) $type .= " <OPTION VALUE=\"$value\">$value</OPTION>\n";
 
+  $output = "";
   $output .= "<FORM ACTION=\"admin.php?mod=account&op=access\" METHOD=\"post\">\n";
   $output .= "<TABLE BORDER=\"1\" CELLPADDING=\"3\" CELLSPACING=\"0\">\n";
   $output .= " <TR><TH>mask</TH><TH>type</TH><TH>reason</TH><TH>operations</TH></TR>\n";
@@ -99,6 +101,7 @@ function account_overview($query = array()) {
 
   $result = db_query("SELECT id, name, last_access FROM users $query[1] LIMIT 50");
 
+  $output = "";
   $output .= status($query[0]);
   $output .= "<TABLE BORDER=\"1\" CELLPADDING=\"2\" CELLSPACING=\"2\">\n";
   $output .= " <TR><TH>username</TH><TH>last access</TH><TH COLSPAN=\"2\">operations</TH></TR>\n";
@@ -119,6 +122,7 @@ function account_blocks($id) {
 }
 
 function account_nodes($id) {
+  $output = "";
   $result = db_query("SELECT * FROM node WHERE author = $id ORDER BY timestamp DESC LIMIT 30");
   while ($node = db_fetch_object($result)) {
     $output .= "<LI><A HREF=\"node.php?id=$node->nid\">$node->title</A> ($node->type)</LI>\n";
@@ -127,6 +131,7 @@ function account_nodes($id) {
 }
 
 function account_comments($id) {
+  $output = "";
   $result = db_query("SELECT * FROM comments WHERE author = '$id' ORDER BY timestamp DESC LIMIT 30");
   while ($comment = db_fetch_object($result)) {
     $output .= "<LI><A HREF=\"node.php?id=$comment->lid&cid=$comment->cid&pid=$comment->pid#$comment->cid\">$comment->subject</A></LI>\n";
@@ -145,7 +150,7 @@ function account_delete($name) {
 }
 
 function account_form($account = 0) {
-
+  $form = "";
   $form .= $account->id ? form_item("ID", $account->id) . form_hidden("id", $account->id) : "";
   $form .= form_item(t("Name"), check_output($account->name) ." (". check_output($account->userid) .")");
   $form .= form_select(t("Status"), "status", $account->status, array("blocked", "not confirmed", "open"));
@@ -175,7 +180,7 @@ function account_save($edit) {
     }
     db_query("UPDATE users SET ". implode(", ", $query) ." WHERE id = $edit[id]");
     watchdog("account", "account: modified user '$edit[name]'");
-    return $edit[name];
+    return $edit['name'];
   }
   else {
     if ($error = account_validate($edit)) {
@@ -183,20 +188,20 @@ function account_save($edit) {
       return 0;
     }
     else {
-      $edit[passwd] = user_password();
-      $edit[hash] = substr(md5("$edit[userid]. ". time()), 0, 12);
+      $edit['passwd'] = user_password();
+      $edit['hash'] = substr(md5("$edit[userid]. ". time()), 0, 12);
 
-      $user = user_save("", array("name" => $edit[userid], "userid" => $edit[userid], "role" => $edit[role], "real_email" => $edit[real_email], "passwd" => $edit[passwd], "status" => $edit[status], "hash" => $edit[hash]));
+      $user = user_save("", array("name" => $edit['userid'], "userid" => $edit['userid'], "role" => $edit['role'], "real_email" => $edit['real_email'], "passwd" => $edit['passwd'], "status" => $edit['status'], "hash" => $edit['hash']));
 
-      $link = path_uri() ."account.php?op=confirm&name=". urlencode($edit[userid]) ."&hash=$edit[hash]";
-      $subject = strtr(t("Account details for %a"), array("%a" => variable_get(site_name, "drupal")));
+      $link = path_uri() ."account.php?op=confirm&name=". urlencode($edit['userid']) ."&hash=$edit[hash]";
+      $subject = strtr(t("Account details for %a"), array("%a" => variable_get('site_name', "drupal")));
       $message = strtr(t("%a,\n\n\nsomeone signed up for a user account on %b and supplied this e-mail address as their contact.  If it wasn't you, don't get your panties in a knot and simply ignore this mail.  If this was you, you will have to confirm your account first or you will not be able to login.  To confirm your account visit the URL below:\n\n   %c\n\nOnce confirmed you can login using the following username and password:\n\n   username: %a\n   password: %d\n\n\n-- %b team\n"), array("%a" => $edit[userid], "%b" => variable_get(site_name, "drupal"), "%c" => $link, "%d" => $edit[passwd]));
 
       watchdog("account", "new account: `$edit[userid]' &lt;$edit[real_email]&gt;");
 
-      if ($edit[status] == 1) mail($edit[real_email], $subject, $message, "From: noreply");
+      if ($edit['status'] == 1) mail($edit['real_email'], $subject, $message, "From: noreply");
 
-      return $edit[userid];
+      return $edit['userid'];
     }
   }
 }
@@ -212,6 +217,7 @@ function account_edit($name) {
 function account_add() {
   global $REQUEST_URI;
 
+  $form = "";
   $form .= form_textfield("Username", "name", "", 30, 55);
   $form .= form_textfield("E-mail address", "mail", "", 30, 55);
   $form .= form_textfield("Password", "pass", "", 30, 55);
@@ -224,23 +230,23 @@ function account_add() {
 
 function account_create($edit) {
 
-  if ($error = user_validate_name($edit[name])) {
+  if ($error = user_validate_name($edit['name'])) {
     return $error;
   }
-  else if ($error = user_validate_mail($edit[mail])) {
+  else if ($error = user_validate_mail($edit['mail'])) {
     return $error;
   }
-  else if (empty($edit[pass])) {
+  else if (empty($edit['pass'])) {
     return "password should be non-empty.";
   }
   else if (db_num_rows(db_query("SELECT userid FROM users WHERE (LOWER(userid) = LOWER('$edit[name]') OR LOWER(name) = LOWER('$edit[name]'))")) > 0) {
     return "the username '$edit[name]' is already taken.";
   }
-  else if (db_num_rows(db_query("SELECT real_email FROM users WHERE LOWER(real_email) = LOWER('$edit[mail]')")) > 0) {
+  else if (db_num_rows(db_query("SELECT 'real_email' FROM users WHERE LOWER(real_email) = LOWER('$edit[mail]')")) > 0) {
     return "the e-mail address '$edit[mail]' is already in use by another account.";
   }
   else {
-    $user = user_save("", array("userid" => $edit[name], "name" => $edit[name], "real_email" => $edit[mail], "passwd" => $edit[pass], "role" => "authenticated user", "status" => 2));
+    $user = user_save("", array("userid" => $edit['name'], "name" => $edit['name'], "real_email" => $edit['mail'], "passwd" => $edit['pass'], "role" => "authenticated user", "status" => 2));
   }
 
 }
@@ -251,10 +257,12 @@ function account_view($name) {
   $result = db_query("SELECT * FROM users WHERE name = '$name'");
 
   if ($account = db_fetch_object($result)) {
+    $form = "";
     $form .= form_hidden("name", $account->name);
     $form .= form_submit("Edit account");
     $form .= form_submit("Delete account");
 
+    $output = "";
     $output .= "<TABLE BORDER=\"1\" CELLPADDING=\"3\" CELLSPACING=\"0\">\n";
     $output .= " <TR><TH>ID:</TH><TD>$account->id</TD></TR>\n";
     $output .= " <TR><TH>Name:</TH><TD>". check_output($account->name) ." (". check_output($account->userid) .")</TD></TR>\n";
@@ -285,14 +293,14 @@ function account_query($type = "") {
 }
 
 function account_validate($user) {
-  if ($error = user_validate_name($user[userid])) return $error;
+  if ($error = user_validate_name($user['userid'])) return $error;
 
   // Verify e-mail address:
-  if ($error = user_validate_mail($user[real_email])) return $error;
+  if ($error = user_validate_mail($user['real_email'])) return $error;
 
   // Check to see whether the username or e-mail address are banned:
-  if ($ban = user_ban($user[userid], "username")) return t("the username '$user[userid]' is banned") .": <I>$ban->reason</I>.";
-  if ($ban = user_ban($user[real_email], "e-mail address")) return t("the e-mail address '$user[real_email]' is banned") .": <I>$ban->reason</I>.";
+  if ($ban = user_ban($user['userid'], "username")) return t("the username '$user[userid]' is banned") .": <I>$ban->reason</I>.";
+  if ($ban = user_ban($user['real_email'], "e-mail address")) return t("the e-mail address '$user[real_email]' is banned") .": <I>$ban->reason</I>.";
 
   // Verify whether username and e-mail address are unique:
   if (db_num_rows(db_query("SELECT userid FROM users WHERE LOWER(userid) = LOWER('$user[userid]')")) > 0) return t("the username '$user[userid]' is already taken.");
@@ -307,7 +315,7 @@ function account_admin() {
     print "<SMALL><A HREF=\"admin.php?mod=account&op=access\">access control</A> | <A HREF=\"admin.php?mod=account&op=add\">add new account</A> | <A HREF=\"admin.php?mod=account&op=listing\">account listings</A> | <A HREF=\"admin.php?mod=account&op=search\">search account</A> | <A HREF=\"admin.php?mod=account\">overview</A> | <A HREF=\"admin.php?mod=account&op=help\">help</A></SMALL><HR>";
 
     $query = $query ? $query : 0;
-    $name = $name ? $name : $edit[name];
+    $name = $name ? $name : $edit['name'];
 
     switch ($op) {
       case "access":
@@ -335,7 +343,7 @@ function account_admin() {
           print account_add($edit);
         }
         else {
-          print account_edit($edit[name]);
+          print account_edit($edit['name']);
         }
         break;
       case "add":
@@ -360,6 +368,7 @@ function account_admin() {
         if ($name)
           print account_view($name);
         else {
+          $account = new stdClass();
           foreach ($edit as $key=>$value) {
             $account->$key = $value;
           }

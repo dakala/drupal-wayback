@@ -47,7 +47,7 @@ function rating_cron() {
 function rating_help() {
  ?>
   <P>The rating cron will periodically calculate each user's gravity, the overall time-weighted rating of each user's contributions.</P>
- <?
+ <?php
 }
 
 function rating_gravity($id) {

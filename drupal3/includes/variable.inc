@@ -2,7 +2,9 @@
 
 function variable_init($conf = array()) {
   $result = db_query("SELECT * FROM variable");
-  while ($variable = db_fetch_object($result)) $conf[$variable->name] = $variable->value;
+  if ($result) {
+    while ($variable = db_fetch_object($result)) $conf[$variable->name] = $variable->value;
+  }
 
   return $conf;
 }

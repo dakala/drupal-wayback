@@ -1,10 +1,10 @@
 <?php
 
 class Blog {
-  function Blog($blog) {
+  function Blog($_blog) {
     global $user;
-    $this = new Node($blog);
-    $this->body = $blog[body];
+    $blog = new Node($_blog);
+    $blog->body = $_blog['body'];
   }
 }
 
@@ -19,7 +19,7 @@ function blog_perm() {
 }
 
 function blog_status() {
-  return array(dumped, posted);
+  return array('dumped', 'posted');
 }
 
 function blog_summary($node) {

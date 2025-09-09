@@ -11,6 +11,8 @@ class BaseTheme {
 
   function comment_controls($threshold = 1, $mode = 3, $order = 1) {
     global $REQUEST_URI, $user;
+
+    $output = "";
     $output .= "<DIV ALIGN=\"CENTER\">\n";
     $output .= "<FORM METHOD=\"post\" ACTION=\"$REQUEST_URI\">\n";
     $output .= comment_mode(($user->id ? $user->mode : $mode));
@@ -28,7 +30,7 @@ class BaseTheme {
 function theme_init() {
   global $user, $themes;
 
-  if ($user->theme && file_exists($themes[$user->theme][0])) {
+  if ($user && $user->theme && file_exists($themes[$user->theme][0])) {
     include_once $themes[$user->theme][0];
   }
   else {
@@ -42,6 +44,7 @@ function theme_account($region, $theme) {
 
   if ($user->id) {
     // Display account settings:
+    $content = "";
     $content .= "<table><tr><td nowrap=\"nowrap\">\n";
     $content .= "<a href=\"account.php?op=edit&type=information\">". t("your information") ."</a><BR>\n";
     $content .= "<a href=\"account.php?op=edit&type=settings\">". t("your settings") ."</a><BR>\n";
@@ -70,6 +73,7 @@ function theme_account($region, $theme) {
     $theme->box($user->name, $content, $region);
   }
   else {
+    $output = "";
     $output .= "<div align=\"center\">\n";
     $output .= " <form action=\"account.php?op=login\" method=\"post\">\n";
     $output .= "  <b>". t("Username") .":</b><br /><input name=\"userid\" size=\"15\"><p />\n";

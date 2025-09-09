@@ -1,13 +1,14 @@
 <?php
 
 class Book {
-  function Book($book) {
-    $this = new Node($book);
-    $this->body = $book[body];
-    $this->parent = $book[parent];
-    $this->weight = $book[weight];
+  function Book($_book) {
+    $book = new Node($_book);
+    $book->body = $_book['body'];
+    $book->parent = $_book['parent'];
+    $book->weight = $_book['weight'];
   }
 }
+
 
 function book_perm() {
   return array("administer book");

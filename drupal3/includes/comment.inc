@@ -1,5 +1,7 @@
 <?php
 
+global $id, $pid, $lid, $mode, $order, $threshold;
+
 // Security check:
 if (strstr($id, " ") || strstr($pid, " ") || strstr($lid, " ") || strstr($mode, " ") || strstr($order, " ") || strstr($threshold, " ")) {
   watchdog("error", "comment: attempt to provide malicious input through URI");

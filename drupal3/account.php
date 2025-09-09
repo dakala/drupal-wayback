@@ -39,6 +39,8 @@ function account_page() {
 function account_create_form($edit = array(), $error = "") {
   global $theme, $REQUEST_URI;
 
+  $output = "";
+
   if ($error) {
     $output .= "<p><font color=\"red\">". t("Failed to create new account") .": ". check_output($error) ."</font></p>\n";
     watchdog("account", "failed to create new account: $error");
@@ -47,8 +49,8 @@ function account_create_form($edit = array(), $error = "") {
     $output .= "<p>". t("Registering allows you to comment, to moderate comments and pending submissions, to customize the look and feel of the site and generally helps you interact with the site more efficiently.") ."</p><p>". t("To create an account, simply fill out this form an click the 'Create new account' button below.  An e-mail will then be sent to you with instructions on how to validate your account.") ."</p>\n";
   }
 
-  $output .= form_textfield(t("Username"), "login", $edit[login], 30, 64, t("Enter your full name or username: only letters, numbers and common special characters like spaces are allowed."));
-  $output .= form_textfield(t("E-mail address"), "email", $edit[email], 30, 64, t("You will be sent instructions on how to validate your account via this e-mail address: make sure it is accurate."));
+  $output .= form_textfield(t("Username"), "login", $edit['login'], 30, 64, t("Enter your full name or username: only letters, numbers and common special characters like spaces are allowed."));
+  $output .= form_textfield(t("E-mail address"), "email", $edit['email'], 30, 64, t("You will be sent instructions on how to validate your account via this e-mail address: make sure it is accurate."));
   $output .= form_submit(t("Create new account"));
 
   return form($REQUEST_URI, $output);
@@ -69,13 +71,15 @@ function account_session_start($userid, $passwd) {
       watchdog("account", "failed to login for '$user->userid': banned by $rule->type rule '$rule->mask'");
     }
     else {
-      session_register("user");
+      session_start();
+      $_SESSION['user'] = $user;
       watchdog("account", "session opened for '$user->userid'");
     }
   }
   else {
     watchdog("account", "failed to login for '$userid': invalid password");
   }
+
 }
 
 function account_session_close() {
@@ -88,6 +92,8 @@ function account_session_close() {
 
 function account_info_edit($error = 0) {
   global $theme, $user;
+
+  $form = "";
 
   if ($user->id) {
 
@@ -140,6 +146,7 @@ function account_settings_edit() {
 
   if ($user->id) {
     foreach ($themes as $key=>$value) $options .= "<OPTION VALUE=\"$key\"". (($user->theme == $key) ? " SELECTED" : "") .">$key - $value[1]</OPTION>\n";
+    $form = "";
     $form .= form_item(t("Theme"), "<SELECT NAME=\"edit[theme]\">$options</SELECT>", t("Selecting a different theme will change the look and feel of the site."));
     for ($zone = -43200; $zone <= 46800; $zone += 3600) $zones[$zone] = date("l, F dS, Y - h:i A", time() - date("Z") + $zone) ." (GMT ". $zone / 3600 .")";
     $form .= form_select(t("Timezone"), "timezone", $user->timezone, $zones, t("Select what time you currently have and your timezone settings will be set appropriate."));
@@ -180,6 +187,7 @@ function account_blocks_edit() {
       $options .= "<input type=\"checkbox\" name=\"edit[$block->name]\"". ($entry->user ? " checked=\"checked\"" : "") ." /> ". t($block->name) ."<br />\n";
     }
 
+    $form = "";
     $form .= form_item(t("Blocks in side bars"), $options, t("Enable the blocks you would like to see displayed in the side bars."));
     $form .= form_submit(t("Save block settings"));
 
@@ -205,6 +213,8 @@ function account_blocks_save($edit) {
 
 function account_user($name) {
   global $user, $theme;
+
+  $output = "";
 
   if ($user->id && $user->name == $name) {
     $output .= "<TABLE BORDER=\"0\" CELLPADDING=\"2\" CELLSPACING=\"2\">\n";
@@ -298,11 +308,11 @@ function account_email_submit($edit) {
     ** Send out an e-mail with the account details:
     */
 
-    $link = path_uri() ."account.php?op=confirm&name=". urlencode($edit[login]) ."&hash=$hash";
-    $subject = strtr(t("Account details for %a"), array("%a" => variable_get(site_name, "drupal")));
+    $link = path_uri() ."account.php?op=confirm&name=". urlencode($edit['login']) ."&hash=$hash";
+    $subject = strtr(t("Account details for %a"), array("%a" => variable_get('site_name', "drupal")));
     $message = strtr(t("%a,\n\n\nyou requested us to e-mail you a new password for your account at %b.  You will need to re-confirm your account or you will not be able to login.  To confirm your account updates visit the URL below:\n\n   %c\n\nOnce confirmed you can login using the following username and password:\n\n   username: %a\n   password: %d\n\n\n-- %b team"), array("%a" => $edit[login], "%b" => variable_get(site_name, "drupal"), "%c" => $link, "%d" => $passwd));
 
-    mail($edit[email], $subject, $message, "From: noreply");
+    mail($edit['email'], $subject, $message, "From: noreply");
 
     watchdog("account", "new password: `$edit[login]' &lt;$edit[email]&gt;");
 
@@ -350,14 +360,14 @@ function account_create_submit($edit) {
       ** Generate a password and a confirmation hash:
       */
 
-      $edit[passwd] = user_password();
-      $edit[hash] = substr(md5("$edit[login]. ". time()), 0, 12);
+      $edit['passwd'] = user_password();
+      $edit['hash'] = substr(md5("$edit[login]. ". time()), 0, 12);
 
       /*
       ** Create the new user account in the database:
       */
 
-      $user = user_save("", array("userid" => $edit[login], "name" => $edit[login], "real_email" => $edit[email], "passwd" => $edit[passwd], "role" => "authenticated user", "status" => 1, "hash" => $edit[hash]));
+      $user = user_save("", array("userid" => $edit['login'], "name" => $edit['login'], "real_email" => $edit['email'], "passwd" => $edit['passwd'], "role" => "authenticated user", "status" => 1, "hash" => $edit['hash']));
 
       /*
       ** Send out an e-mail with the account details:
@@ -367,7 +377,7 @@ function account_create_submit($edit) {
       $subject = strtr(t("Account details for %a"), array("%a" => variable_get(site_name, "drupal")));
       $message = strtr(t("%a,\n\n\nsomeone signed up for a user account on %b and supplied this e-mail address as their contact.  If it wasn't you, don't get your panties in a bundle and simply ignore this mail.  If this was you, you will have to confirm your account first or you will not be able to login.  To confirm your account visit the URL below:\n\n   %c\n\nOnce confirmed you can login using the following username and password:\n\n  username: %a\n   password: %d\n\n\n-- %b team\n"), array("%a" => $edit[login], "%b" => variable_get(site_name, "drupal"), "%c" => $link, "%d" => $edit[passwd]));
 
-      mail($edit[email], $subject, $message, "From: noreply");
+      mail($edit['email'], $subject, $message, "From: noreply");
 
       watchdog("account", "new account: `$edit[login]' &lt;$edit[email]&gt;");
 
@@ -457,6 +467,8 @@ function account_track_site() {
 
   $theme->header();
 
+  $output = "";
+
   $nresult = db_query("SELECT n.nid, n.title, COUNT(c.cid) AS count FROM comments c LEFT JOIN node n ON n.nid = c.lid WHERE n.status = '". node_status("posted") ."' AND c.timestamp > ". (time() - $period) ." GROUP BY c.lid ORDER BY count DESC");
   while ($node = db_fetch_object($nresult)) {
     $output .= "<LI>". format_plural($node->count, "comment", "comments") ." ". t("attached to") ." '<A HREF=\"node.php?id=$node->nid\">". check_output($node->title) ."</A>':</LI>";
@@ -473,6 +485,8 @@ function account_track_site() {
 
   unset($output);
 
+  $output = "";
+
   $result = db_query("SELECT n.title, n.nid, n.type, n.status, u.userid, u.name FROM node n LEFT JOIN users u ON n.author = u.id WHERE ". time() ." - n.timestamp < $period ORDER BY n.timestamp DESC LIMIT 10");
 
   if (db_num_rows($result)) {
@@ -488,6 +502,18 @@ function account_track_site() {
 
   $theme->footer();
 }
+
+// dakala - start
+global $op, $edit, $user, $name, $hash, $userid, $HTTP_REFERER;
+
+if ($_POST) {
+  extract($_POST);
+}
+
+if ($_GET) {
+  extract($_GET);
+}
+// dakala - end
 
 switch ($op) {
   case t("E-mail new password"):

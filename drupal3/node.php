@@ -76,7 +76,9 @@ function node_failure() {
 
 function node_history($node) {
   global $status;
-  if ($node->status == $status[expired] || $node->status == $status[posted]) {
+
+  $output = "";
+  if ($node->status == $status['expired'] || $node->status == $status['posted']) {
     $output .= "<dt><b>". format_date($node->timestamp) ." by ". format_name($node->name) .":</b></dt><dd>". check_output($node->log, 1) ."<p /></dd>";
   }
   if ($node->pid) {
@@ -84,6 +86,14 @@ function node_history($node) {
   }
   return $output;
 }
+
+// dakala - start
+global $title, $theme, $op, $status;
+
+if ($_GET) {
+  extract($_GET);
+}
+// dakala - end
 
 $number = ($title ? db_result(db_query("SELECT COUNT(nid) FROM node WHERE title = '$title' AND status = $status[posted]")) : 1);
 
@@ -101,7 +111,8 @@ if ($number > 1) {
   $theme->footer();
 }
 elseif ($number) {
-  $node = ($title ? node_get_object(array("title" => $title)) : node_get_object(array("nid" => ($edit[id] ? $edit[id] : $id))));
+  $node = ($title ? node_get_object(array("title" => $title)) : node_get_object(array("nid" => ($edit['id'] ? $edit[id] : $id))));
+
   if ($node && node_access($node)) {
     switch ($op) {
       case "history":
