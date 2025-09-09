@@ -1,5 +1,12 @@
 <?php
 
+function _printdebug($str) {
+  echo '<textarea cols="100" rows="10">';
+  print_r($str);
+  echo '</textarea>';
+}
+
+
 $na = "<I>na</I>";
 
 function check_export($message) {
@@ -36,6 +43,7 @@ function format_plural($count, $singular, $plural) {
 
 function format_interval($timestamp) {
   if ($timestamp >= 86400) {
+    $output = "";
     $output .= format_plural(floor($timestamp / 86400), "day", "days");
     $timestamp = $timestamp % 86400;
   }
@@ -56,7 +64,7 @@ function format_interval($timestamp) {
 function format_date($timestamp, $type = "medium") {
   global $user;
 
-  $timestamp += ($user->timezone) ? $user->timezone - date("Z") : 0;
+  $timestamp += ($user && $user->timezone) ? $user->timezone - date("Z") : 0;
 
   switch ($type) {
     case "small":

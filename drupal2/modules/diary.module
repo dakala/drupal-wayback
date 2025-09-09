@@ -33,6 +33,7 @@ function diary_page_overview($num = 20) {
 
   $result = db_query("SELECT d.*, u.userid FROM diaries d LEFT JOIN users u ON d.author = u.id ORDER BY d.timestamp DESC LIMIT $num");
 
+  $output = "";
   while ($diary = db_fetch_object($result)) {
     if ($time != date("F jS", $diary->timestamp)) {
       $output .= "<B>". $date = t(date("l", $diary->timestamp)) .", ". t(date("F", $diary->timestamp)) ." ". date("j", $diary->timestamp) ."</B>\n";
@@ -53,6 +54,7 @@ function diary_page_overview($num = 20) {
 }
 
 function diary_page_entry($timestamp, $text, $id = 0) {
+  $output = "";
   if ($id) {
     $output .= "<DL>\n";
     $output .= " <DT><B>". format_date($timestamp, "large") .":</B></DT>\n";
@@ -75,6 +77,7 @@ function diary_page_display($username) {
 
   $result = db_query("SELECT d.*, u.userid FROM diaries d LEFT JOIN users u ON d.author = u.id WHERE u.userid = '$username' ORDER BY timestamp DESC");
 
+  $output = "";
   if ($username == $user->userid) {
     $output .= diary_page_entry(time(), "<BIG><A HREF=\"module.php?mod=diary&op=add\">". t("Add new diary entry!") ."</A></BIG><P>");
     while ($diary = db_fetch_object($result)) $output .= diary_page_entry($diary->timestamp, $diary->text, $diary->id);
@@ -92,6 +95,7 @@ function diary_page_display($username) {
 function diary_page_add() {
   global $theme, $user, $allowed_html;
 
+  $output = "";
   $output .= "<FORM ACTION=\"module.php?mod=diary\" METHOD=\"post\">\n";
 
   $output .= "<P>\n";
@@ -121,6 +125,7 @@ function diary_page_edit($id) {
   $result = db_query("SELECT * FROM diaries WHERE id = '$id'");
   $diary = db_fetch_object($result);
 
+  $output = "";
   $output .= diary_page_entry($diary->timestamp, $diary->text);
 
   $output .= "<FORM ACTION=\"module.php?mod=diary\" METHOD=\"post\">\n";
@@ -143,6 +148,7 @@ function diary_page_edit($id) {
 function diary_page_preview($text, $timestamp, $id = 0) {
   global $theme, $user, $allowed_html;
 
+  $output = "";
   $output .= diary_page_entry($timestamp, $text);
 
   $output .= "<FORM ACTION=\"module.php?mod=diary\" METHOD=\"post\">\n";
@@ -263,6 +269,7 @@ function diary_admin_edit($id) {
 
   $diary = db_fetch_object($result);
 
+  $output = "";
   $output .= "<FORM ACTION=\"admin.php?mod=diary&op=save&id=$id\" METHOD=\"post\">\n";
 
   $output .= "<P>\n";
@@ -301,6 +308,7 @@ function diary_admin_display($order = "date") {
   $result = db_query("SELECT d.*, u.userid FROM diaries d LEFT JOIN users u ON u.id = d.author ORDER BY d.$fields[$order] LIMIT 50");
 
   // Display stories:
+  $output = "";
   $output .= "<TABLE BORDER=\"1\" CELLPADDING=\"2\" CELLSPACING=\"2\">\n";
   $output .= " <TR>\n";
   $output .= "  <TH ALIGN=\"right\" COLSPAN=\"4\">\n";

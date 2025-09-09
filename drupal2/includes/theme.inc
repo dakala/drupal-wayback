@@ -3,7 +3,7 @@
 function theme_init() {
   global $user, $themes;
 
-  if ($user->theme && file_exists($themes[$user->theme][0])) {
+  if ($user && $user->theme && file_exists($themes[$user->theme][0])) {
     include_once $themes[$user->theme][0];
   }
   else {
@@ -15,7 +15,7 @@ function theme_init() {
 function theme_account($theme) {
   global $user, $site_name, $links, $menu;
 
-  if ($user->id) {
+  if ($user && $user->id) {
 
     function submission_number() {
       $result = db_query("SELECT COUNT(id) FROM stories WHERE status = 1");
@@ -30,6 +30,7 @@ function theme_account($theme) {
     module_iterate("menu");
 
     // Display account settings:
+    $content = "";
     $content .= "<LI><A HREF=\"account.php?op=track&topic=comments\">". t("track your comments") ."</A></LI>\n";
     $content .= "<LI><A HREF=\"account.php?op=track&topic=stories\">". t("track your stories") ."</A></LI>\n";
     $content .= "<LI><A HREF=\"account.php?op=track&topic=site\">". strtr(t("track %a"), array("%a" => $site_name)) ."</A></LI>\n";
@@ -54,6 +55,7 @@ function theme_account($theme) {
     $theme->box(strtr(t("%a's configuration"), array("%a" => $user->userid)), "$content");
   }
   else {
+    $output = "";
     $output .= "<CENTER>\n";
     $output .= " <FORM ACTION=\"account.php?op=login\" METHOD=\"post\">\n";
     $output .= "  <B>". t("Username") .":</B><BR><INPUT NAME=\"userid\" SIZE=\"15\"><P>\n";
@@ -71,16 +73,18 @@ function theme_account($theme) {
 function theme_blocks($region, $theme) {
   global $id, $PHP_SELF, $user;
 
+  $story = NULL;
+
   switch (strrchr($PHP_SELF, "/")) {
     case "/story.php":
       if ($region != "left") {
-        if ($user->id) $story = db_fetch_object(db_query("SELECT * FROM stories WHERE id = '$id'"));
-        if ($story->status == 1) theme_moderation_results($theme, $story);
+        if ($user && $user->id) $story = db_fetch_object(db_query("SELECT * FROM stories WHERE id = '$id'"));
+        if ($story && $story->status == 1) theme_moderation_results($theme, $story);
         else theme_new_headlines($theme);
       }
       break;
     case "/index.php":
-      if ($user->id) $result = db_query("SELECT * FROM blocks b LEFT JOIN layout l ON b.name = l.block WHERE (b.status = 2 OR (b.status = 1 AND l.user = '$user->id'))". (($region == "left" || $region == "right") ? ($region == "left" ? " AND b.region = 0" : " AND b.region = 1") : "") ." ORDER BY weight");
+      if ($user && $user->id) $result = db_query("SELECT * FROM blocks b LEFT JOIN layout l ON b.name = l.block WHERE (b.status = 2 OR (b.status = 1 AND l.user = '$user->id'))". (($region == "left" || $region == "right") ? ($region == "left" ? " AND b.region = 0" : " AND b.region = 1") : "") ." ORDER BY weight");
       else $result = db_query("SELECT * FROM blocks WHERE status = 2". (($region == "left" || $region == "right") ? ($region == "left" ? " AND region = 0" : " AND region = 1") : "") ." ORDER BY weight");
       while ($block = db_fetch_object($result)) {
         $blocks = module_execute($block->module, "block");
@@ -97,6 +101,8 @@ function theme_morelink($theme, $story) {
 function theme_moderation_results($theme, $story) {
   global $user;
 
+  $output = "";
+
   if ($user->id && $story->id && ($user->id == $story->author || user_get($user, "history", "s$story->id"))) {
     $result = db_query("SELECT * FROM users WHERE history LIKE '%s$story->id%'");
     while ($account = db_fetch_object($result)) {
@@ -108,8 +114,9 @@ function theme_moderation_results($theme, $story) {
 }
 
 function theme_related_links($theme, $story) {
+  $content = "";
   // Parse story for <A HREF="">-tags:
-  $text = stripslashes("$story->abstract $story->updates $story->article");
+  $text = stripslashes("$story->abstrakt $story->updates $story->article");
   while ($text = stristr($text, "<A HREF=")) {
     $link = substr($text, 0, strpos(strtolower($text), "</a>") + 4);
     $text = stristr($text, "</A>");
@@ -133,6 +140,8 @@ function theme_new_headlines($theme, $num = 10) {
 
 function theme_old_headlines($theme, $num = 10) {
   global $user;
+
+  $content = "";
 
   if ($user->stories) $result = db_query("SELECT id, subject, timestamp FROM stories WHERE status = 2 ORDER BY timestamp DESC LIMIT $user->stories, $num");
   else $result = db_query("SELECT id, subject, timestamp FROM stories WHERE status = 2 ORDER BY timestamp DESC LIMIT $num, $num");

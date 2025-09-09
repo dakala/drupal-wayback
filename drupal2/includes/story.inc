@@ -1,10 +1,10 @@
 <?php
 
 class Story {
-  function Story($userid, $subject, $abstract, $article, $section, $timestamp) {
+  function Story($userid, $subject, $abstrakt, $article, $section, $timestamp) {
     $this->userid = $userid;
     $this->subject = $subject;
-    $this->abstract = $abstract;
+    $this->abstrakt = $abstrakt;
     $this->article = $article;
     $this->section = $section;
     $this->timestamp = $timestamp;

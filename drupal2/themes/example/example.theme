@@ -10,7 +10,7 @@
       <HTML>
    
         <HEAD>
-          <TITLE><? echo $site_name; ?></TITLE>
+          <TITLE><?php echo $site_name; ?></TITLE>
         </HEAD>
   
         <BODY>
@@ -69,7 +69,7 @@
 
 <?php
  
-                        echo "<P>". check_output($story->abstract, 1) ."</P>";
+                        echo "<P>". check_output($story->abstrakt, 1) ."</P>";
                         if ($story->updates)
                           echo "<P>". t("Editor's note by <A HREF=\"account.php?op=userinfo&uname=$story->editor\">$story->editor</A>") .":". check_output($story->updates, 1) ."</P>";
                         if ($reply)
@@ -178,7 +178,7 @@
                 <TR>
                   <TD></TD>
                   <TD>
-                    <? echo $subject; ?>
+                    <?php echo $subject; ?>
                   </TD>
                   <TD></TD>
                 </TR>

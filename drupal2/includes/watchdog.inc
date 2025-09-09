@@ -1,5 +1,7 @@
 <?php
 
+global $submission_rate;
+
 $watchdog = array("comment" => array("0", $submission_rate["comment"]),
                   "diary"   => array("1", $submission_rate["diary"]),
                   "story"   => array("2", $submission_rate["story"]),
@@ -22,7 +24,7 @@ function watchdog($id, $message) {
   }
 
   // perform query to add new watchdog entry:
-  db_query("INSERT INTO watchdog (level, timestamp, user, message, location, hostname) VALUES ('". $watchdog[$id][0] ."', '". time() ."', '". check_input($user->id) ."', '". check_input(check_output($message)) ."', '". check_input(getenv("REQUEST_URI")) ."', '". check_input(getenv("REMOTE_ADDR")) ."')");
+  //db_query("INSERT INTO watchdog (level, timestamp, user, message, location, hostname) VALUES ('". $watchdog[$id][0] ."', '". time() ."', '". check_input($user && $user->id) ."', '". check_input(check_output($message)) ."', '". $_SERVER['REQUEST_URI'] ."', '". $_SERVER['REMOTE_ADDR'] ."')");
 }
 
 function watchdog_clean($history = 302400) {

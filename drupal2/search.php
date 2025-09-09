@@ -2,13 +2,15 @@
 
 include_once "includes/common.inc";
 
+global $options, $type, $keys, $theme;
+
 function find_module($name, $module) {
   global $options, $type;
-  if ($module["find"]) $options .= "<OPTION VALUE=\"$name\"". ($name == $type ? " SELECTED" : "") .">$name</OPTION>\n";
+  if (isset($module["find"])) $options .= "<OPTION VALUE=\"$name\"". ($name == $type ? " SELECTED" : "") .">$name</OPTION>\n";
 }
 
 module_iterate("find_module");
-
+$search = "";
 $search .= "<FORM ACTION=\"search.php\" METHOD=\"POST\">\n";
 $search .= " <INPUT SIZE=\"50\" VALUE=\"". check_textfield($keys) ."\" NAME=\"keys\" TYPE=\"text\">\n";
 $search .= " <SELECT NAME=\"type\">$options</SELECT>\n";

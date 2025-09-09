@@ -2,6 +2,7 @@
 
 function search_form($keys) {
   global $REQUEST_URI;
+  $output = "";
   $output .= "<FORM ACTION=\"$REQUEST_URI\" METHOD=\"POST\">\n";
   $output .= " <INPUT SIZE=\"50\" VALUE=\"". check_textfield($keys) ."\" NAME=\"keys\">";
   $output .= " <INPUT TYPE=\"submit\" VALUE=\"Search\">\n";
@@ -10,6 +11,9 @@ function search_form($keys) {
 }
 
 function search_data($keys, $type) {
+  global $site_url;
+
+  $output = "";
   if ($keys && $type) {
     $result = module_execute($type, "find", $keys);
     foreach ($result as $entry) {

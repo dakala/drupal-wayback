@@ -1,5 +1,10 @@
 <?php
 
+global $id, $pid, $lid, $mode, $mod, $order, $threshold;
+
+$PHP_SELF = $_SERVER['PHP_SELF'];
+//$mod = $_GET['mod'];
+
 // Security check:
 if (strstr($id, " ") || strstr($pid, " ") || strstr($lid, " ") || strstr($mode, " ") || strstr($order, " ") || strstr($threshold, " ")) {
   watchdog("error", "comment: attempt to provide malicious input through URI");
@@ -64,11 +69,12 @@ function comment_reply($pid, $id) {
   }
 
   // Build reply form:
+  $output = "";
   $output .= "<FORM ACTION=\"$REQUEST_URI\" METHOD=\"post\">\n";
 
   // Name field:
   $output .= "<B>". t("Your name") .":</B><BR>\n";
-  $output .= format_username($user->userid) ."<P>\n";
+  $output .= format_username($user && $user->userid) ."<P>\n";
 
   // Subject field:
   $output .= "<B>". t("Subject") .":</B><BR>\n";
@@ -76,7 +82,7 @@ function comment_reply($pid, $id) {
 
   // Comment field:
   $output .= "<B>".t("Comment") .":</B><BR>\n";
-  $output .= "<TEXTAREA WRAP=\"virtual\" COLS=\"50\" ROWS=\"10\" NAME=\"comment\">". check_textarea($user->signature) ."</TEXTAREA><BR>\n";
+  $output .= "<TEXTAREA WRAP=\"virtual\" COLS=\"50\" ROWS=\"10\" NAME=\"comment\">". check_textarea($user && $user->signature) ."</TEXTAREA><BR>\n";
   $output .= "<SMALL><I>". t("Allowed HTML tags") .": ". htmlspecialchars($allowed_html) .".</I></SMALL><P>\n";
 
   // Preview button:
@@ -221,6 +227,7 @@ function comment_order($order) {
 }
 
 function comment_query($link, $lid, $order, $pid = -1) {
+  $query = "";
   $query .= "SELECT c.*, u.* FROM comments c LEFT JOIN users u ON c.author = u.id WHERE link = '$link' AND c.lid = '$lid'";
   if ($pid >= 0) $query .= " AND pid = '$pid'";
   if ($order == 1) $query .= " ORDER BY c.timestamp DESC";
@@ -291,11 +298,11 @@ function comment_render($lid, $cid) {
   // Pre-process variables:
   $lid = empty($lid) ? 0 : $lid;
   $cid = empty($cid) ? 0 : $cid;
-  $mode  = ($user->id) ? $user->mode : 4;
-  $order = ($user->id) ? $user->sort : 1;
-  $threshold = ($user->id) ? $user->threshold : 3;
+  $mode  = ($user && $user->id) ? $user->mode : 4;
+  $order = ($user && $user->id) ? $user->sort : 1;
+  $threshold = ($user && $user->id) ? $user->threshold : 3;
 
-  if ($user->id) {
+  if ($user && $user->id) {
     // Comment control:
     $theme->controls($threshold, $mode, $order);
 
@@ -343,7 +350,7 @@ function comment_render($lid, $cid) {
     }
   }
 
-  if ($user->id) {
+  if ($user && $user->id) {
     // Print moderation form:
     print "  <INPUT TYPE=\"hidden\" NAME=\"id\" VALUE=\"$lid\">\n";
     print "  <INPUT TYPE=\"submit\" NAME=\"op\" VALUE=\"". t("Moderate comments") ."\">\n";

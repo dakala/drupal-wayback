@@ -17,6 +17,11 @@ function story_render($id, $cid) {
   }
 }
 
+global $op, $cid;
+if (!$op) {
+  extract($_GET);
+}
+
 switch($op) {
   case t("Preview comment"):
     $theme->header();

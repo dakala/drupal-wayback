@@ -1,9 +1,11 @@
 <?php
 
+global $user, $date, $theme, $section, $story;
+
 include_once "includes/common.inc";
 
 // Initialize/pre-process variables:
-$number = ($user->stories) ? $user->stories : 10;
+$number = ($user && $user->stories) ? $user->stories : 10;
 $date = ($date > 0) ? $date : time();
 
 // Perform query:

@@ -1,5 +1,8 @@
 <?php
 
+$REQUEST_URI = $_SERVER['REQUEST_URI'];
+$HTTP_HOST = $_SERVER['HTTP_HOST'];
+
 function conf_init() {
   global $HTTP_HOST, $REQUEST_URI;
   $file = strtolower(strtr($HTTP_HOST ."". substr($REQUEST_URI, 0, strrpos($REQUEST_URI, "/")), "/:", ".."));

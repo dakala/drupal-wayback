@@ -49,7 +49,7 @@
        print " <TR><TD COLSPAN=\"2\">&nbsp;</TD></TR>\n";
        print " <TR>\n";
        print "  <TD COLSPAN=\"2\">\n";
-       if ($story->abstract) print "<P>". check_output($story->abstract, 1) ."</P>\n";
+       if ($story->abstrakt) print "<P>". check_output($story->abstrakt, 1) ."</P>\n";
        if ($story->updates) print "<P><FONT COLOR=\"#666699\">". t("Editor's note") .":</FONT> ". check_output($story->updates, 1) ."</P>\n";
        if ($reply) if ($story->article) print "   <P>". check_output($story->article, 1) ."</P>\n";
        print "  </TD>\n";

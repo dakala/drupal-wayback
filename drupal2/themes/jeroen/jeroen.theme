@@ -127,7 +127,7 @@
 
 <?php
 
-                                  echo "<BR>". check_output($story->abstract, 1) ."<BR>";
+                                  echo "<BR>". check_output($story->abstrakt, 1) ."<BR>";
                                   if ($story->updates)
                                     echo "<P><FONT COLOR=\"#E09226\">". t("Editor's note by <A HREF=\"account.php?op=userinfo&uname=$story->editor\">$story->editor</A>") .":</FONT>". check_output($story->updates, 1) ."</P>";
                                   if ($reply)

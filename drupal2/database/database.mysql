@@ -1,6 +1,6 @@
 
 CREATE TABLE affiliates (
-  id int(11) DEFAULT '0' NOT NULL auto_increment,
+  id int(11) unsigned NOT NULL auto_increment,
   link varchar(255) DEFAULT '' NOT NULL,
   name varchar(255) DEFAULT '' NOT NULL,
   contact varchar(255) DEFAULT '' NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE blocks (
 );
 
 CREATE TABLE boxes (
-  id tinyint(4) DEFAULT '0' NOT NULL auto_increment,
+  id tinyint(4) unsigned NOT NULL auto_increment,
   subject varchar(64) DEFAULT '' NOT NULL,
   content text,
   info varchar(128) DEFAULT '' NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE boxes (
 );
 
 CREATE TABLE bans (
-  id tinyint(4) DEFAULT '0' NOT NULL auto_increment,
+  id tinyint(4) unsigned NOT NULL auto_increment,
   mask varchar(255) DEFAULT '' NOT NULL,
   type tinyint(2) DEFAULT '0' NOT NULL,
   reason text NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE bans (
 
 
 CREATE TABLE channel (
-  id int(11) DEFAULT '0' NOT NULL auto_increment,
+  id int(11) unsigned NOT NULL auto_increment,
   site varchar(255) DEFAULT '' NOT NULL,
   file varchar(255) DEFAULT '' NOT NULL,
   url varchar(255) DEFAULT '' NOT NULL,
@@ -56,14 +56,14 @@ CREATE TABLE channel (
 );
 
 CREATE TABLE comments (
-  cid int(6) DEFAULT '0' NOT NULL auto_increment,
+  cid int(6) unsigned NOT NULL auto_increment,
   pid int(6) DEFAULT '0' NOT NULL,
   lid int(6) DEFAULT '0' NOT NULL,
-  link varchar(16) DEFAULT '' NOT NULL,
+  link varchar(255) DEFAULT '' ,
   author int(6) DEFAULT '0' NOT NULL,
-  subject varchar(64) DEFAULT '' NOT NULL,
+  subject varchar(64) DEFAULT '',
   comment text NOT NULL,
-  hostname varchar(128) DEFAULT '' NOT NULL,
+  hostname varchar(128) DEFAULT '',
   timestamp int(11) DEFAULT '0' NOT NULL,
   score int(6) DEFAULT '0' NOT NULL,
   votes int(6) DEFAULT '0' NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE crons (
 );
 
 CREATE TABLE diaries (
-  id int(5) DEFAULT '0' NOT NULL auto_increment,
+  id int(5) unsigned NOT NULL auto_increment,
   author int(6) DEFAULT '0' NOT NULL,
   text text,
   timestamp int(11) DEFAULT '0' NOT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE diaries (
 );
 
 CREATE TABLE drupals (
-  id int(11) DEFAULT '0' NOT NULL auto_increment,
+  id int(11) unsigned NOT NULL auto_increment,
   link varchar(255) DEFAULT '' NOT NULL,
   name varchar(255) DEFAULT '' NOT NULL,
   contact varchar(255) DEFAULT '' NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE drupals (
 );
 
 CREATE TABLE faqs (
-  id int(11) DEFAULT '0' NOT NULL auto_increment,
+  id int(11) unsigned NOT NULL auto_increment,
   question varchar(255) DEFAULT '' NOT NULL,
   answer text NOT NULL,
   weight tinyint(3) DEFAULT '0' NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE faqs (
 );
 
 CREATE TABLE headlines (
-  id int(11) DEFAULT '0' NOT NULL,
+  id int(11) unsigned NOT NULL,
   title varchar(255) DEFAULT '' NOT NULL,
   link varchar(255) DEFAULT '' NOT NULL,
   number int(3) DEFAULT '0' NOT NULL,
@@ -114,22 +114,22 @@ CREATE TABLE headlines (
 );
 
 CREATE TABLE layout (
-  user int(11) DEFAULT '0' NOT NULL,
+  user int(11) NOT NULL,
   block varchar(64) DEFAULT '' NOT NULL
 );
 
 CREATE TABLE locales (
-  id int(11) DEFAULT '0' NOT NULL auto_increment,
+  id int(11) unsigned NOT NULL auto_increment,
   location varchar(128) DEFAULT '' NOT NULL,
-  string TEXT DEFAULT '' NOT NULL,
-  da TEXT DEFAULT '' NOT NULL,
-  fi TEXT DEFAULT '' NOT NULL,
-  fr TEXT DEFAULT '' NOT NULL,
-  en TEXT DEFAULT '' NOT NULL,
-  es TEXT DEFAULT '' NOT NULL,
-  nl TEXT DEFAULT '' NOT NULL,
-  no TEXT DEFAULT '' NOT NULL,
-  sw TEXT DEFAULT '' NOT NULL,
+  string TEXT,
+  da TEXT,
+  fi TEXT,
+  fr TEXT,
+  en TEXT,
+  es TEXT,
+  nl TEXT,
+  no TEXT,
+  sw TEXT,
   PRIMARY KEY (id)
 );
 
@@ -148,13 +148,13 @@ CREATE TABLE sections (
 );
 
 CREATE TABLE stories (
-  id int(11) DEFAULT '0' NOT NULL auto_increment,
+  id int(11) unsigned NOT NULL auto_increment,
   author int(6) DEFAULT '0' NOT NULL,
   subject varchar(255) DEFAULT '' NOT NULL,
-  abstract text NOT NULL,
-  updates text NOT NULL,
+  abstrakt text NOT NULL,
+  updates text,
   article text NOT NULL,
-  section varchar(64) DEFAULT '' NOT NULL,
+  section varchar(255) DEFAULT '',
   timestamp int(11) DEFAULT '0' NOT NULL,
   score int(11) DEFAULT '0' NOT NULL,
   votes int(11) DEFAULT '0' NOT NULL,
@@ -164,10 +164,10 @@ CREATE TABLE stories (
 );
 
 CREATE TABLE users (
-  id int(10) unsigned DEFAULT '0' NOT NULL auto_increment,
+  id int(10) unsigned NOT NULL auto_increment,
   name varchar(60) DEFAULT '' NOT NULL,
   userid varchar(15) DEFAULT '' NOT NULL,
-  passwd varchar(20) DEFAULT '' NOT NULL,
+  passwd varchar(255) DEFAULT '' NOT NULL,
   real_email varchar(60) DEFAULT '' NOT NULL,
   fake_email varchar(60) DEFAULT '' NOT NULL,
   url varchar(100) DEFAULT '' NOT NULL,
@@ -175,28 +175,28 @@ CREATE TABLE users (
   mode tinyint(1) DEFAULT '0',
   sort tinyint(1) DEFAULT '0',
   threshold tinyint(1) DEFAULT '0',
-  bio tinytext NOT NULL,
+  bio tinytext,
   theme varchar(255) DEFAULT '' NOT NULL,
-  signature varchar(255) DEFAULT '' NOT NULL,
+  signature varchar(255) DEFAULT '',
   last_access int(10) unsigned,
   last_host varchar(255),
   access varchar(255) DEFAULT '' NOT NULL,
-  status tinyint(4) DEFAULT '0' NOT NULL,
-  history text NOT NULL,
-  hash varchar(12) DEFAULT '' NOT NULL,
-  rating decimal(8,4) DEFAULT '0' NOT NULL,
-  timezone varchar(8) DEFAULT '0' NOT NULL,
-  language varchar(2) DEFAULT '0' NOT NULL,
+  status tinyint(4) DEFAULT '0',
+  history text,
+  hash varchar(12) DEFAULT '',
+  rating decimal(8,4) DEFAULT '0',
+  timezone varchar(8) DEFAULT '0',
+  language varchar(2) DEFAULT '',
   PRIMARY KEY (id)
 );
 
 CREATE TABLE watchdog (
-  id int(5) DEFAULT '0' NOT NULL auto_increment,
+  id int(5) unsigned NOT NULL auto_increment,
   level int(2) DEFAULT '0' NOT NULL,
   timestamp int(11) DEFAULT '0' NOT NULL,
   user int(6) DEFAULT '0' NOT NULL,
   message varchar(255) DEFAULT '' NOT NULL,
-  location varchar(128) DEFAULT '' NOT NULL,
+  location varchar(255) DEFAULT '' NOT NULL,
   hostname varchar(128) DEFAULT '' NOT NULL,
   PRIMARY KEY (id)
 );

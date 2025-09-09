@@ -18,7 +18,7 @@ function ban_match($mask, $category) {
   return db_fetch_object($result);
 }
 
-function ban_add($mask, $category, $reason, $message = "") {
+function ban_add($mask, $category, $reason, &$message = "") {
   global $index2type;
 
   if (empty($mask)) {

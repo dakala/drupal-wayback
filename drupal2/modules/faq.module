@@ -7,6 +7,8 @@ $module = array("page" => "faq_page",
 function faq_page() {
   global $theme;
 
+  $output = $header = "";
+
   $result = db_query("SELECT * FROM faqs ORDER BY weight");
 
   while ($faq = db_fetch_object($result)) {
@@ -25,6 +27,7 @@ function faq_page() {
 function faq_add() {
   global $allowed_html;
 
+  $output = "";
   $output .= "<FORM ACTION=\"admin.php?mod=faq\" METHOD=\"post\">\n";
 
   $output .= "<B>Question:</B><BR>\n";

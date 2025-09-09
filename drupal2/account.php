@@ -8,6 +8,7 @@ function account_get_user($uname) {
 }
 
 function account_email() {
+  $output = "";
   $output .= "<P>". t("Lost your password?  Fill out your username and e-mail address, and your password will be mailed to you.") ."</P>\n";
   $output .= "<FORM ACTION=\"account.php\" METHOD=\"post\">\n";
   $output .= "<B>". t("Username") .":</B><BR>\n";
@@ -22,6 +23,8 @@ function account_email() {
 
 function account_create($error = "") {
   global $theme;
+
+  $output = "";
 
   if ($error) {
     $output .= "<P><FONT COLOR=\"red\">". t("Failed to create account: $error.") ."</FONT></P>\n";
@@ -46,9 +49,13 @@ function account_create($error = "") {
 
 function account_session_start($userid, $passwd) {
   global $user;
-  if ($userid && $passwd) $user = new User($userid, $passwd);
-  if ($user->id) session_register("user");
-  watchdog("message", ($user->id ? "session opened for user '$user->userid'" : "failed login for user `$userid'"));
+  if ($userid && $passwd) {
+    $user = new User($userid, $passwd);
+  }
+  if ($user && $user->id) {
+    $_SESSION['user'] = $user;
+  }
+  watchdog("message", ($user && $user->id ? "session opened for user '$user->userid'" : "failed login for user `$userid'"));
 }
 
 function account_session_close() {
@@ -61,6 +68,8 @@ function account_session_close() {
 
 function account_user_edit() {
   global $allowed_html, $theme, $user;
+
+  $output = "";
 
   if ($user->id) {
     // Generate output/content:
@@ -124,6 +133,8 @@ function account_user_save($edit) {
 
 function account_site_edit() {
   global $cmodes, $corder, $theme, $themes, $languages, $user;
+
+  $output = "";
 
   if ($user->id) {
     $output .= "<FORM ACTION=\"account.php\" METHOD=\"post\">\n";
@@ -189,6 +200,8 @@ function account_site_save($edit) {
 function account_content_edit() {
   global $theme, $user;
 
+  $output = "";
+
   if ($user->id) {
     $output .= "<FORM ACTION=\"account.php\" METHOD=\"post\">\n";
     $output .= "<B>". t("Blocks in side bars") .":</B><BR>\n";
@@ -233,7 +246,9 @@ function account_user($uname) {
     }
   }
 
-  if ($user->id && $user->userid == $uname) {
+  $output = $block1 = $block2 = "";
+
+  if ($user && $user->id && $user->userid == $uname) {
     $output .= "<TABLE BORDER=\"0\" CELLPADDING=\"2\" CELLSPACING=\"2\">\n";
     $output .= " <TR><TD ALIGN=\"right\"><B>". t("Username") .":</B></TD><TD>$user->userid</TD></TR>\n";
     $output .= " <TR><TD ALIGN=\"right\"><B>". t("E-mail") .":</B></TD><TD>". format_email($user->fake_email) ."</A></TD></TR>\n";
@@ -427,6 +442,8 @@ function account_track_comments() {
 function account_track_stories() {
   global $theme, $user;
 
+  $output = "";
+
   $result = db_query("SELECT s.id, s.subject, s.timestamp, s.section, COUNT(c.cid) AS count FROM stories s LEFT JOIN comments c ON c.lid = s.id WHERE s.status = '2' AND s.author = '$user->id' GROUP BY s.id DESC");
 
   while ($story = db_fetch_object($result)) {
@@ -446,6 +463,8 @@ function account_track_stories() {
 function account_track_site() {
   global $theme, $user, $site_name;
 
+  $output = "";
+
   $period = 259200; // 3 days
 
   $sresult = db_query("SELECT s.subject, s.id, COUNT(c.lid) AS count FROM comments c LEFT JOIN stories s ON c.lid = s.id WHERE s.status = '2' AND c.link = 'story' AND ". time() ." - c.timestamp < $period GROUP BY c.lid ORDER BY s.timestamp DESC LIMIT 10");
@@ -463,6 +482,18 @@ function account_track_site() {
   $theme->header();
   $theme->box(strtr(t("Track %a"), array("%a" => $site_name)), ($output ? $output : t("No comments or stories posted recently.")));
   $theme->footer();
+}
+
+// dakala
+// Declare global variables here.
+global $name, $hash, $op, $userid, $passwd, $email, $edit, $user, $topic;
+
+if($_POST) {
+  extract($_POST);
+}
+
+if (!$op) {
+  extract($_GET);
 }
 
 // Security check:
@@ -535,7 +566,7 @@ switch ($op) {
     }
     break;
   default:
-    account_user($user->userid);
+    account_user($user && $user->userid);
 }
 
 ?>
