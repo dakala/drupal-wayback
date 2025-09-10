@@ -1600,6 +1600,7 @@ function drupal_add_css($path = NULL, $type = 'module', $media = 'all', $preproc
  *   A string of XHTML CSS tags.
  */
 function drupal_get_css($css = NULL) {
+  $no_module_preprocess = $no_theme_preprocess = ''; // dakala
   $output = '';
   if (!isset($css)) {
     $css = drupal_add_css();

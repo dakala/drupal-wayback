@@ -1863,7 +1863,7 @@ function _system_sort_requirements($a, $b) {
 /**
  * Theme status report
  */
-function theme_status_report(&$requirements) {
+function theme_status_report($requirements) {
   $i = 0;
   $output = '<table class="system-status-report">';
   foreach ($requirements as $requirement) {

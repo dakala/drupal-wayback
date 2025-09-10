@@ -238,6 +238,9 @@ function drupal_retrieve_form($form_id) {
 function drupal_process_form($form_id, &$form) {
   global $form_values, $form_submitted, $user, $form_button_counter;
   static $saved_globals = array();
+
+  $redirect = NULL; // dakala
+
   // In some scenarios, this function can be called recursively. Pushing any pre-existing
   // $form_values and form submission data lets us start fresh without clobbering work done
   // in earlier recursive calls.
@@ -321,7 +324,7 @@ function drupal_prepare_form($form_id, &$form) {
       $form['form_token'] = array('#type' => 'token', '#default_value' => drupal_get_token($form['#token']));
     }
   }
-  else if ($user->uid && !$form['#programmed']) {
+  else if ($user && $user->uid && !$form['#programmed']) {
     $form['#token'] = $form_id;
     $form['form_token'] = array(
       '#id' => form_clean_id('edit-'. $form_id .'-form-token'),
@@ -452,6 +455,7 @@ function drupal_submit_form($form_id, $form) {
  *
  */
 function drupal_render_form($form_id, &$form) {
+  $base = ""; // dakala
   // Don't override #theme if someone already set it.
   if (isset($form['#base'])) {
     $base = $form['#base'];
@@ -758,6 +762,7 @@ function form_builder($form_id, $form) {
   // Allow for elements to expand to multiple elements, e.g., radios,
   // checkboxes and files.
   if (isset($form['#process']) && !$form['#processed']) {
+    $edit = $form['#post']; // dakala
     foreach ($form['#process'] as $process => $args) {
       if (function_exists($process)) {
         $args = array_merge(array($form), array($edit), $args);
@@ -1041,6 +1046,8 @@ function theme_fieldset($element) {
      $element['#attributes']['class'] .= ' collapsed';
     }
   }
+
+  $element['#value'] = isset($element['#value'])  ? $element['#value'] : ""; // dakala
 
   return '<fieldset' . drupal_attributes($element['#attributes']) .'>' . ($element['#title'] ? '<legend>'. $element['#title'] .'</legend>' : '') . ($element['#description'] ? '<div class="description">'. $element['#description'] .'</div>' : '') . $element['#children'] . $element['#value'] . "</fieldset>\n";
 }

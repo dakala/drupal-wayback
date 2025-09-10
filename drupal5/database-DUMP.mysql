@@ -1,0 +1,1150 @@
+-- MySQL dump 10.13  Distrib 5.7.44, for Linux (aarch64)
+--
+-- Host: db    Database: db
+-- ------------------------------------------------------
+-- Server version	5.7.42-0ubuntu0.18.04.1-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `access`
+--
+
+DROP TABLE IF EXISTS `access`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `access` (
+  `aid` int(11) NOT NULL AUTO_INCREMENT,
+  `mask` varchar(255) NOT NULL DEFAULT '',
+  `type` varchar(255) NOT NULL DEFAULT '',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`aid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `access`
+--
+
+LOCK TABLES `access` WRITE;
+/*!40000 ALTER TABLE `access` DISABLE KEYS */;
+/*!40000 ALTER TABLE `access` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `authmap`
+--
+
+DROP TABLE IF EXISTS `authmap`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `authmap` (
+  `aid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `authname` varchar(128) NOT NULL DEFAULT '',
+  `module` varchar(128) NOT NULL DEFAULT '',
+  PRIMARY KEY (`aid`),
+  UNIQUE KEY `authname` (`authname`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `authmap`
+--
+
+LOCK TABLES `authmap` WRITE;
+/*!40000 ALTER TABLE `authmap` DISABLE KEYS */;
+/*!40000 ALTER TABLE `authmap` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `blocks`
+--
+
+DROP TABLE IF EXISTS `blocks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `blocks` (
+  `module` varchar(64) NOT NULL DEFAULT '',
+  `delta` varchar(32) NOT NULL DEFAULT '0',
+  `theme` varchar(255) NOT NULL DEFAULT '',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `weight` tinyint(4) NOT NULL DEFAULT '0',
+  `region` varchar(64) NOT NULL DEFAULT 'left',
+  `custom` tinyint(4) NOT NULL DEFAULT '0',
+  `throttle` tinyint(4) NOT NULL DEFAULT '0',
+  `visibility` tinyint(4) NOT NULL DEFAULT '0',
+  `pages` text NOT NULL,
+  `title` varchar(64) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `blocks`
+--
+
+LOCK TABLES `blocks` WRITE;
+/*!40000 ALTER TABLE `blocks` DISABLE KEYS */;
+INSERT INTO `blocks` VALUES ('user','0','garland',1,0,'left',0,0,0,'',''),('user','1','garland',1,0,'left',0,0,0,'','');
+/*!40000 ALTER TABLE `blocks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `blocks_roles`
+--
+
+DROP TABLE IF EXISTS `blocks_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `blocks_roles` (
+  `module` varchar(64) NOT NULL,
+  `delta` varchar(32) NOT NULL,
+  `rid` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`module`,`delta`,`rid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `blocks_roles`
+--
+
+LOCK TABLES `blocks_roles` WRITE;
+/*!40000 ALTER TABLE `blocks_roles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `blocks_roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `boxes`
+--
+
+DROP TABLE IF EXISTS `boxes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `boxes` (
+  `bid` int(11) NOT NULL AUTO_INCREMENT,
+  `body` longtext,
+  `info` varchar(128) NOT NULL DEFAULT '',
+  `format` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`bid`),
+  UNIQUE KEY `info` (`info`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `boxes`
+--
+
+LOCK TABLES `boxes` WRITE;
+/*!40000 ALTER TABLE `boxes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `boxes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cache`
+--
+
+DROP TABLE IF EXISTS `cache`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cache` (
+  `cid` varchar(255) NOT NULL DEFAULT '',
+  `data` longblob,
+  `expire` int(11) NOT NULL DEFAULT '0',
+  `created` int(11) NOT NULL DEFAULT '0',
+  `headers` text,
+  PRIMARY KEY (`cid`),
+  KEY `expire` (`expire`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cache`
+--
+
+LOCK TABLES `cache` WRITE;
+/*!40000 ALTER TABLE `cache` DISABLE KEYS */;
+INSERT INTO `cache` VALUES ('variables',_binary 'a:9:{s:12:\"comment_page\";i:0;s:13:\"filter_html_1\";i:1;s:15:\"install_profile\";s:7:\"default\";s:17:\"menu_primary_menu\";i:2;s:19:\"menu_secondary_menu\";i:2;s:18:\"node_options_forum\";a:1:{i:0;s:6:\"status\";}s:17:\"node_options_page\";a:1:{i:0;s:6:\"status\";}s:13:\"theme_default\";s:7:\"garland\";s:14:\"theme_settings\";a:1:{s:21:\"toggle_node_info_page\";b:0;}}',0,1757494539,'');
+/*!40000 ALTER TABLE `cache` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cache_filter`
+--
+
+DROP TABLE IF EXISTS `cache_filter`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cache_filter` (
+  `cid` varchar(255) NOT NULL DEFAULT '',
+  `data` longblob,
+  `expire` int(11) NOT NULL DEFAULT '0',
+  `created` int(11) NOT NULL DEFAULT '0',
+  `headers` text,
+  PRIMARY KEY (`cid`),
+  KEY `expire` (`expire`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cache_filter`
+--
+
+LOCK TABLES `cache_filter` WRITE;
+/*!40000 ALTER TABLE `cache_filter` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cache_filter` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cache_menu`
+--
+
+DROP TABLE IF EXISTS `cache_menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cache_menu` (
+  `cid` varchar(255) NOT NULL DEFAULT '',
+  `data` longblob,
+  `expire` int(11) NOT NULL DEFAULT '0',
+  `created` int(11) NOT NULL DEFAULT '0',
+  `headers` text,
+  PRIMARY KEY (`cid`),
+  KEY `expire` (`expire`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cache_menu`
+--
+
+LOCK TABLES `cache_menu` WRITE;
+/*!40000 ALTER TABLE `cache_menu` DISABLE KEYS */;
+INSERT INTO `cache_menu` VALUES ('0:en',_binary 'a:4:{s:10:\"path index\";a:119:{s:17:\"admin/build/block\";i:-1;s:22:\"admin/build/block/list\";i:-2;s:27:\"admin/build/block/configure\";i:-3;s:24:\"admin/build/block/delete\";i:-4;s:21:\"admin/build/block/add\";i:-5;s:30:\"admin/build/block/list/garland\";i:-6;s:21:\"admin/content/comment\";i:-7;s:26:\"admin/content/comment/list\";i:-8;s:30:\"admin/content/comment/list/new\";i:-9;s:35:\"admin/content/comment/list/approval\";i:-10;s:30:\"admin/content/comment/settings\";i:-11;s:14:\"comment/delete\";i:-12;s:12:\"comment/edit\";i:-13;s:22:\"admin/settings/filters\";i:-14;s:27:\"admin/settings/filters/list\";i:-15;s:26:\"admin/settings/filters/add\";i:-16;s:29:\"admin/settings/filters/delete\";i:-17;s:11:\"filter/tips\";i:-18;s:10:\"admin/help\";i:-19;s:16:\"admin/help/block\";i:-20;s:16:\"admin/help/color\";i:-21;s:18:\"admin/help/comment\";i:-22;s:17:\"admin/help/filter\";i:-23;s:15:\"admin/help/help\";i:-24;s:15:\"admin/help/menu\";i:-25;s:15:\"admin/help/node\";i:-26;s:17:\"admin/help/system\";i:-27;s:19:\"admin/help/taxonomy\";i:-28;s:15:\"admin/help/user\";i:-29;s:19:\"admin/help/watchdog\";i:-30;s:16:\"admin/build/menu\";i:-31;s:21:\"admin/build/menu/list\";i:-32;s:25:\"admin/build/menu/item/add\";i:-33;s:26:\"admin/build/menu/item/edit\";i:-34;s:27:\"admin/build/menu/item/reset\";i:-35;s:29:\"admin/build/menu/item/disable\";i:-36;s:28:\"admin/build/menu/item/delete\";i:-37;s:25:\"admin/build/menu/menu/add\";i:-38;s:26:\"admin/build/menu/menu/edit\";i:-39;s:28:\"admin/build/menu/menu/delete\";i:-40;s:25:\"admin/build/menu/settings\";i:-41;s:13:\"admin/content\";i:-42;s:18:\"admin/content/node\";i:-43;s:27:\"admin/content/node/overview\";i:-44;s:27:\"admin/content/node-settings\";i:-45;s:35:\"admin/content/node-settings/rebuild\";i:-46;s:19:\"admin/content/types\";i:-47;s:24:\"admin/content/types/list\";i:-48;s:23:\"admin/content/types/add\";i:-49;s:4:\"node\";i:-50;s:8:\"node/add\";i:-51;s:7:\"rss.xml\";i:-52;s:13:\"node/add/page\";i:-53;s:14:\"node/add/story\";i:-54;s:12:\"system/files\";i:-55;s:5:\"admin\";i:-56;s:13:\"admin/compact\";i:-57;s:13:\"admin/by-task\";i:-58;s:15:\"admin/by-module\";i:-59;s:14:\"admin/settings\";i:-60;s:11:\"admin/build\";i:-61;s:20:\"admin/settings/admin\";i:-62;s:18:\"admin/build/themes\";i:-63;s:25:\"admin/build/themes/select\";i:-64;s:27:\"admin/build/themes/settings\";i:-65;s:34:\"admin/build/themes/settings/global\";i:-66;s:35:\"admin/build/themes/settings/garland\";i:-67;s:19:\"admin/build/modules\";i:-68;s:24:\"admin/build/modules/list\";i:-69;s:32:\"admin/build/modules/list/confirm\";i:-70;s:29:\"admin/build/modules/uninstall\";i:-71;s:37:\"admin/build/modules/uninstall/confirm\";i:-72;s:31:\"admin/settings/site-information\";i:-73;s:30:\"admin/settings/error-reporting\";i:-74;s:26:\"admin/settings/performance\";i:-75;s:26:\"admin/settings/file-system\";i:-76;s:28:\"admin/settings/image-toolkit\";i:-77;s:28:\"admin/content/rss-publishing\";i:-78;s:24:\"admin/settings/date-time\";i:-79;s:31:\"admin/settings/site-maintenance\";i:-80;s:25:\"admin/settings/clean-urls\";i:-81;s:10:\"admin/logs\";i:-82;s:17:\"admin/logs/status\";i:-83;s:26:\"admin/logs/status/run-cron\";i:-84;s:21:\"admin/logs/status/php\";i:-85;s:21:\"admin/logs/status/sql\";i:-86;s:22:\"admin/content/taxonomy\";i:-87;s:27:\"admin/content/taxonomy/list\";i:-88;s:37:\"admin/content/taxonomy/add/vocabulary\";i:-89;s:38:\"admin/content/taxonomy/edit/vocabulary\";i:-90;s:32:\"admin/content/taxonomy/edit/term\";i:-91;s:13:\"taxonomy/term\";i:-92;s:21:\"taxonomy/autocomplete\";i:-93;s:4:\"user\";i:-94;s:17:\"user/autocomplete\";i:-95;s:10:\"user/login\";i:-96;s:13:\"user/register\";i:-97;s:13:\"user/password\";i:-98;s:10:\"user/reset\";i:-99;s:9:\"user/help\";i:-100;s:10:\"admin/user\";i:-101;s:15:\"admin/user/user\";i:-102;s:20:\"admin/user/user/list\";i:-103;s:22:\"admin/user/user/create\";i:-104;s:19:\"admin/user/settings\";i:-105;s:17:\"admin/user/access\";i:-106;s:16:\"admin/user/roles\";i:-107;s:21:\"admin/user/roles/edit\";i:-108;s:16:\"admin/user/rules\";i:-109;s:21:\"admin/user/rules/list\";i:-110;s:20:\"admin/user/rules/add\";i:-111;s:22:\"admin/user/rules/check\";i:-112;s:21:\"admin/user/rules/edit\";i:-113;s:23:\"admin/user/rules/delete\";i:-114;s:6:\"logout\";i:-115;s:19:\"admin/logs/watchdog\";i:-116;s:25:\"admin/logs/page-not-found\";i:-117;s:24:\"admin/logs/access-denied\";i:-118;s:16:\"admin/logs/event\";i:-119;}s:5:\"items\";a:122:{i:0;a:5:{s:4:\"path\";s:0:\"\";s:5:\"title\";s:0:\"\";s:4:\"type\";i:1;s:3:\"pid\";i:1;s:8:\"children\";a:2:{i:0;i:1;i:1;i:2;}}i:1;a:7:{s:3:\"pid\";i:0;s:4:\"path\";s:0:\"\";s:5:\"title\";s:10:\"Navigation\";s:6:\"weight\";i:-50;s:6:\"access\";b:1;s:4:\"type\";i:3;s:8:\"children\";a:11:{i:0;i:-12;i:1;i:-13;i:2;i:-18;i:3;i:-50;i:4;i:-52;i:5;i:-55;i:6;i:-56;i:7;i:-92;i:8;i:-93;i:9;i:-94;i:10;i:-115;}}i:-1;a:8:{s:4:\"path\";s:17:\"admin/build/block\";s:5:\"title\";s:6:\"Blocks\";s:6:\"access\";b:0;s:11:\"description\";s:79:\"Configure what block content appears in your site\'s sidebars and other regions.\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-61;s:8:\"children\";a:4:{i:0;i:-2;i:1;i:-3;i:2;i:-4;i:3;i:-5;}}i:-2;a:6:{s:4:\"path\";s:22:\"admin/build/block/list\";s:5:\"title\";s:4:\"List\";s:4:\"type\";i:640;s:6:\"weight\";i:-10;s:3:\"pid\";i:-1;s:8:\"children\";a:1:{i:0;i:-6;}}i:-3;a:6:{s:4:\"path\";s:27:\"admin/build/block/configure\";s:5:\"title\";s:15:\"Configure block\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-1;}i:-4;a:6:{s:4:\"path\";s:24:\"admin/build/block/delete\";s:5:\"title\";s:12:\"Delete block\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-1;}i:-5;a:6:{s:4:\"path\";s:21:\"admin/build/block/add\";s:5:\"title\";s:9:\"Add block\";s:6:\"access\";b:0;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-1;}i:-6;a:6:{s:4:\"path\";s:30:\"admin/build/block/list/garland\";s:5:\"title\";s:16:\"garland settings\";s:6:\"access\";b:0;s:4:\"type\";i:640;s:6:\"weight\";i:-10;s:3:\"pid\";i:-2;}i:-7;a:8:{s:4:\"path\";s:21:\"admin/content/comment\";s:5:\"title\";s:8:\"Comments\";s:11:\"description\";s:61:\"List and edit site comments and the comment moderation queue.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-42;s:8:\"children\";a:2:{i:0;i:-8;i:1;i:-11;}}i:-8;a:6:{s:4:\"path\";s:26:\"admin/content/comment/list\";s:5:\"title\";s:4:\"List\";s:4:\"type\";i:640;s:6:\"weight\";i:-10;s:3:\"pid\";i:-7;s:8:\"children\";a:2:{i:0;i:-9;i:1;i:-10;}}i:-9;a:5:{s:4:\"path\";s:30:\"admin/content/comment/list/new\";s:5:\"title\";s:18:\"Published comments\";s:4:\"type\";i:640;s:6:\"weight\";i:-10;s:3:\"pid\";i:-8;}i:-10;a:6:{s:4:\"path\";s:35:\"admin/content/comment/list/approval\";s:5:\"title\";s:14:\"Approval queue\";s:6:\"access\";b:0;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-8;}i:-11;a:6:{s:4:\"path\";s:30:\"admin/content/comment/settings\";s:5:\"title\";s:8:\"Settings\";s:6:\"access\";b:0;s:6:\"weight\";i:10;s:4:\"type\";i:128;s:3:\"pid\";i:-7;}i:-12;a:6:{s:4:\"path\";s:14:\"comment/delete\";s:5:\"title\";s:14:\"Delete comment\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:1;}i:-13;a:6:{s:4:\"path\";s:12:\"comment/edit\";s:5:\"title\";s:12:\"Edit comment\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:1;}i:-14;a:8:{s:4:\"path\";s:22:\"admin/settings/filters\";s:5:\"title\";s:13:\"Input formats\";s:11:\"description\";s:142:\"Configure how content input by users is filtered, including allowed HTML tags, PHP code tags. Also allows enabling of module-provided filters.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-60;s:8:\"children\";a:3:{i:0;i:-15;i:1;i:-16;i:2;i:-17;}}i:-15;a:6:{s:4:\"path\";s:27:\"admin/settings/filters/list\";s:5:\"title\";s:4:\"List\";s:4:\"type\";i:640;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-14;}i:-16;a:6:{s:4:\"path\";s:26:\"admin/settings/filters/add\";s:5:\"title\";s:16:\"Add input format\";s:4:\"type\";i:128;s:6:\"weight\";i:1;s:6:\"access\";b:0;s:3:\"pid\";i:-14;}i:-17;a:6:{s:4:\"path\";s:29:\"admin/settings/filters/delete\";s:5:\"title\";s:19:\"Delete input format\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-14;}i:-18;a:6:{s:4:\"path\";s:11:\"filter/tips\";s:5:\"title\";s:12:\"Compose tips\";s:6:\"access\";b:1;s:4:\"type\";i:20;s:6:\"weight\";i:0;s:3:\"pid\";i:1;}i:-19;a:7:{s:4:\"path\";s:10:\"admin/help\";s:5:\"title\";s:4:\"Help\";s:6:\"access\";b:0;s:6:\"weight\";i:9;s:4:\"type\";i:22;s:3:\"pid\";i:-56;s:8:\"children\";a:11:{i:0;i:-20;i:1;i:-21;i:2;i:-22;i:3;i:-23;i:4;i:-24;i:5;i:-25;i:6;i:-26;i:7;i:-27;i:8;i:-28;i:9;i:-29;i:10;i:-30;}}i:-20;a:6:{s:4:\"path\";s:16:\"admin/help/block\";s:5:\"title\";s:5:\"block\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-19;}i:-21;a:6:{s:4:\"path\";s:16:\"admin/help/color\";s:5:\"title\";s:5:\"color\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-19;}i:-22;a:6:{s:4:\"path\";s:18:\"admin/help/comment\";s:5:\"title\";s:7:\"comment\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-19;}i:-23;a:6:{s:4:\"path\";s:17:\"admin/help/filter\";s:5:\"title\";s:6:\"filter\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-19;}i:-24;a:6:{s:4:\"path\";s:15:\"admin/help/help\";s:5:\"title\";s:4:\"help\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-19;}i:-25;a:6:{s:4:\"path\";s:15:\"admin/help/menu\";s:5:\"title\";s:4:\"menu\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-19;}i:-26;a:6:{s:4:\"path\";s:15:\"admin/help/node\";s:5:\"title\";s:4:\"node\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-19;}i:-27;a:6:{s:4:\"path\";s:17:\"admin/help/system\";s:5:\"title\";s:6:\"system\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-19;}i:-28;a:6:{s:4:\"path\";s:19:\"admin/help/taxonomy\";s:5:\"title\";s:8:\"taxonomy\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-19;}i:-29;a:6:{s:4:\"path\";s:15:\"admin/help/user\";s:5:\"title\";s:4:\"user\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-19;}i:-30;a:6:{s:4:\"path\";s:19:\"admin/help/watchdog\";s:5:\"title\";s:8:\"watchdog\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-19;}i:-31;a:8:{s:4:\"path\";s:16:\"admin/build/menu\";s:5:\"title\";s:5:\"Menus\";s:11:\"description\";s:116:\"Control your site\'s navigation menu, primary links and secondary links. as well as rename and reorganize menu items.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-61;s:8:\"children\";a:10:{i:0;i:-32;i:1;i:-33;i:2;i:-34;i:3;i:-35;i:4;i:-36;i:5;i:-37;i:6;i:-38;i:7;i:-39;i:8;i:-40;i:9;i:-41;}}i:-32;a:5:{s:4:\"path\";s:21:\"admin/build/menu/list\";s:5:\"title\";s:4:\"List\";s:4:\"type\";i:640;s:6:\"weight\";i:-10;s:3:\"pid\";i:-31;}i:-33;a:6:{s:4:\"path\";s:25:\"admin/build/menu/item/add\";s:5:\"title\";s:13:\"Add menu item\";s:6:\"access\";b:0;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-31;}i:-34;a:6:{s:4:\"path\";s:26:\"admin/build/menu/item/edit\";s:5:\"title\";s:14:\"Edit menu item\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-31;}i:-35;a:6:{s:4:\"path\";s:27:\"admin/build/menu/item/reset\";s:5:\"title\";s:15:\"Reset menu item\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-31;}i:-36;a:6:{s:4:\"path\";s:29:\"admin/build/menu/item/disable\";s:5:\"title\";s:17:\"Disable menu item\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-31;}i:-37;a:6:{s:4:\"path\";s:28:\"admin/build/menu/item/delete\";s:5:\"title\";s:16:\"Delete menu item\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-31;}i:-38;a:6:{s:4:\"path\";s:25:\"admin/build/menu/menu/add\";s:5:\"title\";s:8:\"Add menu\";s:6:\"access\";b:0;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-31;}i:-39;a:6:{s:4:\"path\";s:26:\"admin/build/menu/menu/edit\";s:5:\"title\";s:9:\"Edit menu\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-31;}i:-40;a:6:{s:4:\"path\";s:28:\"admin/build/menu/menu/delete\";s:5:\"title\";s:11:\"Delete menu\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-31;}i:-41;a:5:{s:4:\"path\";s:25:\"admin/build/menu/settings\";s:5:\"title\";s:8:\"Settings\";s:4:\"type\";i:128;s:6:\"weight\";i:5;s:3:\"pid\";i:-31;}i:-42;a:9:{s:4:\"path\";s:13:\"admin/content\";s:5:\"title\";s:18:\"Content management\";s:11:\"description\";s:27:\"Manage your site\'s content.\";s:8:\"position\";s:4:\"left\";s:6:\"weight\";i:-10;s:6:\"access\";b:0;s:4:\"type\";i:22;s:8:\"children\";a:6:{i:0;i:-7;i:1;i:-43;i:2;i:-45;i:3;i:-47;i:4;i:-78;i:5;i:-87;}s:3:\"pid\";i:-56;}i:-43;a:8:{s:4:\"path\";s:18:\"admin/content/node\";s:5:\"title\";s:7:\"Content\";s:11:\"description\";s:43:\"View, edit, and delete your site\'s content.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-42;s:8:\"children\";a:1:{i:0;i:-44;}}i:-44;a:5:{s:4:\"path\";s:27:\"admin/content/node/overview\";s:5:\"title\";s:4:\"List\";s:4:\"type\";i:640;s:6:\"weight\";i:-10;s:3:\"pid\";i:-43;}i:-45;a:8:{s:4:\"path\";s:27:\"admin/content/node-settings\";s:5:\"title\";s:13:\"Post settings\";s:11:\"description\";s:126:\"Control posting behavior, such as teaser length, requiring previews before posting, and the number of posts on the front page.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-42;s:8:\"children\";a:1:{i:0;i:-46;}}i:-46;a:6:{s:4:\"path\";s:35:\"admin/content/node-settings/rebuild\";s:5:\"title\";s:19:\"rebuild permissions\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-45;}i:-47;a:8:{s:4:\"path\";s:19:\"admin/content/types\";s:5:\"title\";s:13:\"Content types\";s:11:\"description\";s:82:\"Manage posts by content type, including default status, front page promotion, etc.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-42;s:8:\"children\";a:2:{i:0;i:-48;i:1;i:-49;}}i:-48;a:5:{s:4:\"path\";s:24:\"admin/content/types/list\";s:5:\"title\";s:4:\"List\";s:4:\"type\";i:640;s:6:\"weight\";i:-10;s:3:\"pid\";i:-47;}i:-49;a:5:{s:4:\"path\";s:23:\"admin/content/types/add\";s:5:\"title\";s:16:\"Add content type\";s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-47;}i:-50;a:7:{s:4:\"path\";s:4:\"node\";s:5:\"title\";s:7:\"Content\";s:6:\"access\";b:1;s:4:\"type\";i:16;s:6:\"weight\";i:0;s:3:\"pid\";i:1;s:8:\"children\";a:1:{i:0;i:-51;}}i:-51;a:7:{s:4:\"path\";s:8:\"node/add\";s:5:\"title\";s:14:\"Create content\";s:6:\"access\";b:1;s:4:\"type\";i:28;s:6:\"weight\";i:1;s:3:\"pid\";i:-50;s:8:\"children\";a:2:{i:0;i:-53;i:1;i:-54;}}i:-52;a:6:{s:4:\"path\";s:7:\"rss.xml\";s:5:\"title\";s:8:\"RSS feed\";s:6:\"access\";b:1;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:1;}i:-53;a:6:{s:4:\"path\";s:13:\"node/add/page\";s:5:\"title\";s:4:\"Page\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-51;}i:-54;a:6:{s:4:\"path\";s:14:\"node/add/story\";s:5:\"title\";s:5:\"Story\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-51;}i:-55;a:6:{s:4:\"path\";s:12:\"system/files\";s:5:\"title\";s:13:\"File download\";s:6:\"access\";b:1;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:1;}i:-56;a:7:{s:4:\"path\";s:5:\"admin\";s:5:\"title\";s:10:\"Administer\";s:6:\"access\";b:0;s:6:\"weight\";i:9;s:4:\"type\";i:22;s:8:\"children\";a:9:{i:0;i:-19;i:1;i:-42;i:2;i:-57;i:3;i:-58;i:4;i:-59;i:5;i:-60;i:6;i:-61;i:7;i:-82;i:8;i:-101;}s:3:\"pid\";i:1;}i:-57;a:6:{s:4:\"path\";s:13:\"admin/compact\";s:5:\"title\";s:12:\"Compact mode\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-56;}i:-58;a:5:{s:4:\"path\";s:13:\"admin/by-task\";s:5:\"title\";s:7:\"By task\";s:4:\"type\";i:640;s:6:\"weight\";i:0;s:3:\"pid\";i:-56;}i:-59;a:5:{s:4:\"path\";s:15:\"admin/by-module\";s:5:\"title\";s:9:\"By module\";s:4:\"type\";i:128;s:6:\"weight\";i:2;s:3:\"pid\";i:-56;}i:-60;a:9:{s:4:\"path\";s:14:\"admin/settings\";s:5:\"title\";s:18:\"Site configuration\";s:11:\"description\";s:40:\"Adjust basic site configuration options.\";s:8:\"position\";s:5:\"right\";s:6:\"weight\";i:-5;s:6:\"access\";b:0;s:4:\"type\";i:22;s:8:\"children\";a:10:{i:0;i:-14;i:1;i:-62;i:2;i:-73;i:3;i:-74;i:4;i:-75;i:5;i:-76;i:6;i:-77;i:7;i:-79;i:8;i:-80;i:9;i:-81;}s:3:\"pid\";i:-56;}i:-61;a:9:{s:4:\"path\";s:11:\"admin/build\";s:5:\"title\";s:13:\"Site building\";s:11:\"description\";s:38:\"Control how your site looks and feels.\";s:8:\"position\";s:5:\"right\";s:6:\"weight\";i:-10;s:6:\"access\";b:0;s:4:\"type\";i:22;s:8:\"children\";a:4:{i:0;i:-1;i:1;i:-31;i:2;i:-63;i:3;i:-68;}s:3:\"pid\";i:-56;}i:-62;a:9:{s:4:\"path\";s:20:\"admin/settings/admin\";s:5:\"title\";s:20:\"Administration theme\";s:11:\"description\";s:55:\"Settings for how your administrative pages should look.\";s:8:\"position\";s:4:\"left\";s:14:\"block callback\";s:27:\"system_admin_theme_settings\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-60;}i:-63;a:8:{s:4:\"path\";s:18:\"admin/build/themes\";s:5:\"title\";s:6:\"Themes\";s:11:\"description\";s:57:\"Change which theme your site uses or allows users to set.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-61;s:8:\"children\";a:2:{i:0;i:-64;i:1;i:-65;}}i:-64;a:7:{s:4:\"path\";s:25:\"admin/build/themes/select\";s:5:\"title\";s:4:\"List\";s:11:\"description\";s:25:\"Select the default theme.\";s:6:\"access\";b:0;s:4:\"type\";i:640;s:6:\"weight\";i:-1;s:3:\"pid\";i:-63;}i:-65;a:7:{s:4:\"path\";s:27:\"admin/build/themes/settings\";s:5:\"title\";s:9:\"Configure\";s:6:\"access\";b:0;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-63;s:8:\"children\";a:2:{i:0;i:-66;i:1;i:-67;}}i:-66;a:6:{s:4:\"path\";s:34:\"admin/build/themes/settings/global\";s:5:\"title\";s:15:\"Global settings\";s:6:\"access\";b:0;s:4:\"type\";i:640;s:6:\"weight\";i:-1;s:3:\"pid\";i:-65;}i:-67;a:6:{s:4:\"path\";s:35:\"admin/build/themes/settings/garland\";s:5:\"title\";s:7:\"garland\";s:6:\"access\";b:0;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-65;}i:-68;a:8:{s:4:\"path\";s:19:\"admin/build/modules\";s:5:\"title\";s:7:\"Modules\";s:11:\"description\";s:47:\"Enable or disable add-on modules for your site.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-61;s:8:\"children\";a:2:{i:0;i:-69;i:1;i:-71;}}i:-69;a:7:{s:4:\"path\";s:24:\"admin/build/modules/list\";s:5:\"title\";s:4:\"List\";s:4:\"type\";i:640;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-68;s:8:\"children\";a:1:{i:0;i:-70;}}i:-70;a:6:{s:4:\"path\";s:32:\"admin/build/modules/list/confirm\";s:5:\"title\";s:4:\"List\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-69;}i:-71;a:7:{s:4:\"path\";s:29:\"admin/build/modules/uninstall\";s:5:\"title\";s:9:\"Uninstall\";s:4:\"type\";i:128;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-68;s:8:\"children\";a:1:{i:0;i:-72;}}i:-72;a:6:{s:4:\"path\";s:37:\"admin/build/modules/uninstall/confirm\";s:5:\"title\";s:9:\"Uninstall\";s:4:\"type\";i:4;s:6:\"access\";b:0;s:6:\"weight\";i:0;s:3:\"pid\";i:-71;}i:-73;a:6:{s:4:\"path\";s:31:\"admin/settings/site-information\";s:5:\"title\";s:16:\"Site information\";s:11:\"description\";s:107:\"Change basic site information, such as the site name, slogan, e-mail address, mission, front page and more.\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-60;}i:-74;a:6:{s:4:\"path\";s:30:\"admin/settings/error-reporting\";s:5:\"title\";s:15:\"Error reporting\";s:11:\"description\";s:93:\"Control how Drupal deals with errors including 403/404 errors as well as PHP error reporting.\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-60;}i:-75;a:6:{s:4:\"path\";s:26:\"admin/settings/performance\";s:5:\"title\";s:11:\"Performance\";s:11:\"description\";s:91:\"Enable or disable page caching for anonymous users, and enable or disable CSS preprocessor.\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-60;}i:-76;a:6:{s:4:\"path\";s:26:\"admin/settings/file-system\";s:5:\"title\";s:11:\"File system\";s:11:\"description\";s:68:\"Tell Drupal where to store uploaded files and how they are accessed.\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-60;}i:-77;a:6:{s:4:\"path\";s:28:\"admin/settings/image-toolkit\";s:5:\"title\";s:13:\"Image toolkit\";s:11:\"description\";s:74:\"Choose which image toolkit to use if you have installed optional toolkits.\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-60;}i:-78;a:6:{s:4:\"path\";s:28:\"admin/content/rss-publishing\";s:5:\"title\";s:14:\"RSS publishing\";s:11:\"description\";s:92:\"Configure the number of items per feed and whether feeds should be titles/teasers/full-text.\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-42;}i:-79;a:6:{s:4:\"path\";s:24:\"admin/settings/date-time\";s:5:\"title\";s:13:\"Date and time\";s:11:\"description\";s:89:\"Settings for how Drupal displays date and time, as well as the system\'s default timezone.\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-60;}i:-80;a:6:{s:4:\"path\";s:31:\"admin/settings/site-maintenance\";s:5:\"title\";s:16:\"Site maintenance\";s:11:\"description\";s:63:\"Take the site off-line for maintenance or bring it back online.\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-60;}i:-81;a:6:{s:4:\"path\";s:25:\"admin/settings/clean-urls\";s:5:\"title\";s:10:\"Clean URLs\";s:11:\"description\";s:43:\"Enable or disable clean URLs for your site.\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-60;}i:-82;a:8:{s:4:\"path\";s:10:\"admin/logs\";s:5:\"title\";s:4:\"Logs\";s:11:\"description\";s:46:\"View system logs and other status information.\";s:6:\"weight\";i:5;s:8:\"position\";s:4:\"left\";s:4:\"type\";i:22;s:3:\"pid\";i:-56;s:8:\"children\";a:5:{i:0;i:-83;i:1;i:-116;i:2;i:-117;i:3;i:-118;i:4;i:-119;}}i:-83;a:8:{s:4:\"path\";s:17:\"admin/logs/status\";s:5:\"title\";s:13:\"Status report\";s:11:\"description\";s:74:\"Get a status report about your site\'s operation and any detected problems.\";s:6:\"weight\";i:10;s:6:\"access\";b:0;s:4:\"type\";i:22;s:3:\"pid\";i:-82;s:8:\"children\";a:3:{i:0;i:-84;i:1;i:-85;i:2;i:-86;}}i:-84;a:5:{s:4:\"path\";s:26:\"admin/logs/status/run-cron\";s:5:\"title\";s:8:\"Run cron\";s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-83;}i:-85;a:5:{s:4:\"path\";s:21:\"admin/logs/status/php\";s:5:\"title\";s:3:\"PHP\";s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-83;}i:-86;a:5:{s:4:\"path\";s:21:\"admin/logs/status/sql\";s:5:\"title\";s:3:\"SQL\";s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-83;}i:-87;a:8:{s:4:\"path\";s:22:\"admin/content/taxonomy\";s:5:\"title\";s:10:\"Categories\";s:11:\"description\";s:57:\"Create vocabularies and terms to categorize your content.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-42;s:8:\"children\";a:4:{i:0;i:-88;i:1;i:-89;i:2;i:-90;i:3;i:-91;}}i:-88;a:5:{s:4:\"path\";s:27:\"admin/content/taxonomy/list\";s:5:\"title\";s:4:\"List\";s:4:\"type\";i:640;s:6:\"weight\";i:-10;s:3:\"pid\";i:-87;}i:-89;a:6:{s:4:\"path\";s:37:\"admin/content/taxonomy/add/vocabulary\";s:5:\"title\";s:14:\"Add vocabulary\";s:6:\"access\";b:0;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-87;}i:-90;a:6:{s:4:\"path\";s:38:\"admin/content/taxonomy/edit/vocabulary\";s:5:\"title\";s:15:\"Edit vocabulary\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-87;}i:-91;a:6:{s:4:\"path\";s:32:\"admin/content/taxonomy/edit/term\";s:5:\"title\";s:9:\"Edit term\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-87;}i:-92;a:6:{s:4:\"path\";s:13:\"taxonomy/term\";s:5:\"title\";s:13:\"Taxonomy term\";s:6:\"access\";b:1;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:1;}i:-93;a:6:{s:4:\"path\";s:21:\"taxonomy/autocomplete\";s:5:\"title\";s:21:\"Autocomplete taxonomy\";s:6:\"access\";b:1;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:1;}i:-94;a:7:{s:4:\"path\";s:4:\"user\";s:5:\"title\";s:12:\"User account\";s:6:\"access\";b:1;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:1;s:8:\"children\";a:6:{i:0;i:-95;i:1;i:-96;i:2;i:-97;i:3;i:-98;i:4;i:-99;i:5;i:-100;}}i:-95;a:6:{s:4:\"path\";s:17:\"user/autocomplete\";s:5:\"title\";s:17:\"User autocomplete\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-94;}i:-96;a:6:{s:4:\"path\";s:10:\"user/login\";s:5:\"title\";s:6:\"Log in\";s:6:\"access\";b:1;s:4:\"type\";i:640;s:6:\"weight\";i:0;s:3:\"pid\";i:-94;}i:-97;a:6:{s:4:\"path\";s:13:\"user/register\";s:5:\"title\";s:18:\"Create new account\";s:6:\"access\";b:1;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-94;}i:-98;a:6:{s:4:\"path\";s:13:\"user/password\";s:5:\"title\";s:20:\"Request new password\";s:6:\"access\";b:1;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-94;}i:-99;a:6:{s:4:\"path\";s:10:\"user/reset\";s:5:\"title\";s:14:\"Reset password\";s:6:\"access\";b:1;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-94;}i:-100;a:5:{s:4:\"path\";s:9:\"user/help\";s:5:\"title\";s:4:\"Help\";s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-94;}i:-101;a:9:{s:4:\"path\";s:10:\"admin/user\";s:5:\"title\";s:15:\"User management\";s:11:\"description\";s:61:\"Manage your site\'s users, groups and access to site features.\";s:8:\"position\";s:4:\"left\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-56;s:8:\"children\";a:5:{i:0;i:-102;i:1;i:-105;i:2;i:-106;i:3;i:-107;i:4;i:-109;}}i:-102;a:8:{s:4:\"path\";s:15:\"admin/user/user\";s:5:\"title\";s:5:\"Users\";s:11:\"description\";s:26:\"List, add, and edit users.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-101;s:8:\"children\";a:2:{i:0;i:-103;i:1;i:-104;}}i:-103;a:5:{s:4:\"path\";s:20:\"admin/user/user/list\";s:5:\"title\";s:4:\"List\";s:4:\"type\";i:640;s:6:\"weight\";i:-10;s:3:\"pid\";i:-102;}i:-104;a:6:{s:4:\"path\";s:22:\"admin/user/user/create\";s:5:\"title\";s:8:\"Add user\";s:6:\"access\";b:0;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-102;}i:-105;a:6:{s:4:\"path\";s:19:\"admin/user/settings\";s:5:\"title\";s:13:\"User settings\";s:11:\"description\";s:101:\"Configure default behavior of users, including registration requirements, e-mails, and user pictures.\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-101;}i:-106;a:7:{s:4:\"path\";s:17:\"admin/user/access\";s:5:\"title\";s:14:\"Access control\";s:11:\"description\";s:64:\"Determine access to features by selecting permissions for roles.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-101;}i:-107;a:8:{s:4:\"path\";s:16:\"admin/user/roles\";s:5:\"title\";s:5:\"Roles\";s:11:\"description\";s:30:\"List, edit, or add user roles.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-101;s:8:\"children\";a:1:{i:0;i:-108;}}i:-108;a:6:{s:4:\"path\";s:21:\"admin/user/roles/edit\";s:5:\"title\";s:9:\"Edit role\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-107;}i:-109;a:8:{s:4:\"path\";s:16:\"admin/user/rules\";s:5:\"title\";s:12:\"Access rules\";s:11:\"description\";s:80:\"List and create rules to disallow usernames, e-mail addresses, and IP addresses.\";s:6:\"access\";b:0;s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-101;s:8:\"children\";a:5:{i:0;i:-110;i:1;i:-111;i:2;i:-112;i:3;i:-113;i:4;i:-114;}}i:-110;a:6:{s:4:\"path\";s:21:\"admin/user/rules/list\";s:5:\"title\";s:4:\"List\";s:6:\"access\";b:0;s:4:\"type\";i:640;s:6:\"weight\";i:-10;s:3:\"pid\";i:-109;}i:-111;a:6:{s:4:\"path\";s:20:\"admin/user/rules/add\";s:5:\"title\";s:8:\"Add rule\";s:6:\"access\";b:0;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-109;}i:-112;a:6:{s:4:\"path\";s:22:\"admin/user/rules/check\";s:5:\"title\";s:11:\"Check rules\";s:6:\"access\";b:0;s:4:\"type\";i:128;s:6:\"weight\";i:0;s:3:\"pid\";i:-109;}i:-113;a:6:{s:4:\"path\";s:21:\"admin/user/rules/edit\";s:5:\"title\";s:9:\"Edit rule\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-109;}i:-114;a:6:{s:4:\"path\";s:23:\"admin/user/rules/delete\";s:5:\"title\";s:11:\"Delete rule\";s:6:\"access\";b:0;s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-109;}i:-115;a:6:{s:4:\"path\";s:6:\"logout\";s:5:\"title\";s:7:\"Log out\";s:6:\"access\";i:0;s:6:\"weight\";i:10;s:4:\"type\";i:22;s:3:\"pid\";i:1;}i:-116;a:6:{s:4:\"path\";s:19:\"admin/logs/watchdog\";s:5:\"title\";s:18:\"Recent log entries\";s:11:\"description\";s:43:\"View events that have recently been logged.\";s:6:\"weight\";i:-1;s:4:\"type\";i:22;s:3:\"pid\";i:-82;}i:-117;a:6:{s:4:\"path\";s:25:\"admin/logs/page-not-found\";s:5:\"title\";s:27:\"Top \'page not found\' errors\";s:11:\"description\";s:36:\"View \'page not found\' errors (404s).\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-82;}i:-118;a:6:{s:4:\"path\";s:24:\"admin/logs/access-denied\";s:5:\"title\";s:26:\"Top \'access denied\' errors\";s:11:\"description\";s:35:\"View \'access denied\' errors (403s).\";s:4:\"type\";i:22;s:6:\"weight\";i:0;s:3:\"pid\";i:-82;}i:-119;a:5:{s:4:\"path\";s:16:\"admin/logs/event\";s:5:\"title\";s:7:\"Details\";s:4:\"type\";i:4;s:6:\"weight\";i:0;s:3:\"pid\";i:-82;}i:2;a:6:{s:4:\"path\";s:0:\"\";s:5:\"title\";s:13:\"Primary links\";s:11:\"description\";s:0:\"\";s:3:\"pid\";s:1:\"0\";s:6:\"weight\";s:1:\"0\";s:4:\"type\";s:3:\"115\";}}s:9:\"callbacks\";a:107:{s:17:\"admin/build/block\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:19:\"block_admin_display\";}}s:27:\"admin/build/block/configure\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:21:\"block_admin_configure\";}}s:24:\"admin/build/block/delete\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:16:\"block_box_delete\";}}s:21:\"admin/build/block/add\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:14:\"block_box_form\";}}s:30:\"admin/build/block/list/garland\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:2:{i:0;s:19:\"block_admin_display\";i:1;s:7:\"garland\";}}s:21:\"admin/content/comment\";a:1:{s:8:\"callback\";s:13:\"comment_admin\";}s:35:\"admin/content/comment/list/approval\";a:2:{s:8:\"callback\";s:13:\"comment_admin\";s:18:\"callback arguments\";a:1:{i:0;s:8:\"approval\";}}s:30:\"admin/content/comment/settings\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:22:\"comment_admin_settings\";}}s:14:\"comment/delete\";a:1:{s:8:\"callback\";s:14:\"comment_delete\";}s:12:\"comment/edit\";a:1:{s:8:\"callback\";s:12:\"comment_edit\";}s:22:\"admin/settings/filters\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:21:\"filter_admin_overview\";}}s:27:\"admin/settings/filters/list\";a:1:{s:8:\"callback\";s:21:\"filter_admin_overview\";}s:26:\"admin/settings/filters/add\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:24:\"filter_admin_format_form\";}}s:29:\"admin/settings/filters/delete\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:19:\"filter_admin_delete\";}}s:11:\"filter/tips\";a:1:{s:8:\"callback\";s:16:\"filter_tips_long\";}s:10:\"admin/help\";a:1:{s:8:\"callback\";s:9:\"help_main\";}s:16:\"admin/help/block\";a:1:{s:8:\"callback\";s:9:\"help_page\";}s:16:\"admin/help/color\";a:1:{s:8:\"callback\";s:9:\"help_page\";}s:18:\"admin/help/comment\";a:1:{s:8:\"callback\";s:9:\"help_page\";}s:17:\"admin/help/filter\";a:1:{s:8:\"callback\";s:9:\"help_page\";}s:15:\"admin/help/help\";a:1:{s:8:\"callback\";s:9:\"help_page\";}s:15:\"admin/help/menu\";a:1:{s:8:\"callback\";s:9:\"help_page\";}s:15:\"admin/help/node\";a:1:{s:8:\"callback\";s:9:\"help_page\";}s:17:\"admin/help/system\";a:1:{s:8:\"callback\";s:9:\"help_page\";}s:19:\"admin/help/taxonomy\";a:1:{s:8:\"callback\";s:9:\"help_page\";}s:15:\"admin/help/user\";a:1:{s:8:\"callback\";s:9:\"help_page\";}s:19:\"admin/help/watchdog\";a:1:{s:8:\"callback\";s:9:\"help_page\";}s:16:\"admin/build/menu\";a:1:{s:8:\"callback\";s:13:\"menu_overview\";}s:25:\"admin/build/menu/item/add\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:2:{i:0;s:19:\"menu_edit_item_form\";i:1;s:3:\"add\";}}s:26:\"admin/build/menu/item/edit\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:2:{i:0;s:19:\"menu_edit_item_form\";i:1;s:4:\"edit\";}}s:27:\"admin/build/menu/item/reset\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:15:\"menu_reset_item\";}}s:29:\"admin/build/menu/item/disable\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:25:\"menu_confirm_disable_item\";}}s:28:\"admin/build/menu/item/delete\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:21:\"menu_item_delete_form\";}}s:25:\"admin/build/menu/menu/add\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:2:{i:0;s:19:\"menu_edit_menu_form\";i:1;s:3:\"add\";}}s:26:\"admin/build/menu/menu/edit\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:2:{i:0;s:19:\"menu_edit_menu_form\";i:1;s:4:\"edit\";}}s:28:\"admin/build/menu/menu/delete\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:21:\"menu_item_delete_form\";}}s:25:\"admin/build/menu/settings\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:14:\"menu_configure\";}}s:13:\"admin/content\";a:1:{s:8:\"callback\";s:28:\"system_admin_menu_block_page\";}s:18:\"admin/content/node\";a:1:{s:8:\"callback\";s:18:\"node_admin_content\";}s:27:\"admin/content/node-settings\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:14:\"node_configure\";}}s:35:\"admin/content/node-settings/rebuild\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:30:\"node_configure_rebuild_confirm\";}}s:19:\"admin/content/types\";a:1:{s:8:\"callback\";s:19:\"node_overview_types\";}s:23:\"admin/content/types/add\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:14:\"node_type_form\";}}s:4:\"node\";a:1:{s:8:\"callback\";s:17:\"node_page_default\";}s:8:\"node/add\";a:1:{s:8:\"callback\";s:8:\"node_add\";}s:7:\"rss.xml\";a:1:{s:8:\"callback\";s:9:\"node_feed\";}s:12:\"system/files\";a:1:{s:8:\"callback\";s:13:\"file_download\";}s:5:\"admin\";a:1:{s:8:\"callback\";s:22:\"system_main_admin_page\";}s:13:\"admin/compact\";a:1:{s:8:\"callback\";s:25:\"system_admin_compact_page\";}s:13:\"admin/by-task\";a:1:{s:8:\"callback\";s:22:\"system_main_admin_page\";}s:15:\"admin/by-module\";a:1:{s:8:\"callback\";s:22:\"system_admin_by_module\";}s:14:\"admin/settings\";a:1:{s:8:\"callback\";s:24:\"system_settings_overview\";}s:11:\"admin/build\";a:1:{s:8:\"callback\";s:28:\"system_admin_menu_block_page\";}s:20:\"admin/settings/admin\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:27:\"system_admin_theme_settings\";}}s:18:\"admin/build/themes\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:13:\"system_themes\";}}s:25:\"admin/build/themes/select\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:13:\"system_themes\";}}s:27:\"admin/build/themes/settings\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:21:\"system_theme_settings\";}}s:34:\"admin/build/themes/settings/global\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:21:\"system_theme_settings\";}}s:35:\"admin/build/themes/settings/garland\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:2:{i:0;s:21:\"system_theme_settings\";i:1;s:7:\"garland\";}}s:19:\"admin/build/modules\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:14:\"system_modules\";}}s:32:\"admin/build/modules/list/confirm\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:14:\"system_modules\";}}s:29:\"admin/build/modules/uninstall\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:24:\"system_modules_uninstall\";}}s:37:\"admin/build/modules/uninstall/confirm\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:24:\"system_modules_uninstall\";}}s:31:\"admin/settings/site-information\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:32:\"system_site_information_settings\";}}s:30:\"admin/settings/error-reporting\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:31:\"system_error_reporting_settings\";}}s:26:\"admin/settings/performance\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:27:\"system_performance_settings\";}}s:26:\"admin/settings/file-system\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:27:\"system_file_system_settings\";}}s:28:\"admin/settings/image-toolkit\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:29:\"system_image_toolkit_settings\";}}s:28:\"admin/content/rss-publishing\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:25:\"system_rss_feeds_settings\";}}s:24:\"admin/settings/date-time\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:25:\"system_date_time_settings\";}}s:31:\"admin/settings/site-maintenance\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:32:\"system_site_maintenance_settings\";}}s:25:\"admin/settings/clean-urls\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:25:\"system_clean_url_settings\";}}s:10:\"admin/logs\";a:1:{s:8:\"callback\";s:28:\"system_admin_menu_block_page\";}s:17:\"admin/logs/status\";a:1:{s:8:\"callback\";s:13:\"system_status\";}s:26:\"admin/logs/status/run-cron\";a:1:{s:8:\"callback\";s:15:\"system_run_cron\";}s:21:\"admin/logs/status/php\";a:1:{s:8:\"callback\";s:10:\"system_php\";}s:21:\"admin/logs/status/sql\";a:1:{s:8:\"callback\";s:10:\"system_sql\";}s:22:\"admin/content/taxonomy\";a:1:{s:8:\"callback\";s:30:\"taxonomy_overview_vocabularies\";}s:37:\"admin/content/taxonomy/add/vocabulary\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:24:\"taxonomy_form_vocabulary\";}}s:38:\"admin/content/taxonomy/edit/vocabulary\";a:1:{s:8:\"callback\";s:30:\"taxonomy_admin_vocabulary_edit\";}s:32:\"admin/content/taxonomy/edit/term\";a:1:{s:8:\"callback\";s:24:\"taxonomy_admin_term_edit\";}s:13:\"taxonomy/term\";a:1:{s:8:\"callback\";s:18:\"taxonomy_term_page\";}s:21:\"taxonomy/autocomplete\";a:1:{s:8:\"callback\";s:21:\"taxonomy_autocomplete\";}s:4:\"user\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:10:\"user_login\";}}s:17:\"user/autocomplete\";a:1:{s:8:\"callback\";s:17:\"user_autocomplete\";}s:10:\"user/login\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:10:\"user_login\";}}s:13:\"user/register\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:13:\"user_register\";}}s:13:\"user/password\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:9:\"user_pass\";}}s:10:\"user/reset\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:15:\"user_pass_reset\";}}s:9:\"user/help\";a:1:{s:8:\"callback\";s:14:\"user_help_page\";}s:10:\"admin/user\";a:1:{s:8:\"callback\";s:28:\"system_admin_menu_block_page\";}s:15:\"admin/user/user\";a:2:{s:8:\"callback\";s:10:\"user_admin\";s:18:\"callback arguments\";a:1:{i:0;s:4:\"list\";}}s:22:\"admin/user/user/create\";a:2:{s:8:\"callback\";s:10:\"user_admin\";s:18:\"callback arguments\";a:1:{i:0;s:6:\"create\";}}s:19:\"admin/user/settings\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:19:\"user_admin_settings\";}}s:17:\"admin/user/access\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:15:\"user_admin_perm\";}}s:16:\"admin/user/roles\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:19:\"user_admin_new_role\";}}s:21:\"admin/user/roles/edit\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:15:\"user_admin_role\";}}s:16:\"admin/user/rules\";a:1:{s:8:\"callback\";s:17:\"user_admin_access\";}s:20:\"admin/user/rules/add\";a:1:{s:8:\"callback\";s:21:\"user_admin_access_add\";}s:22:\"admin/user/rules/check\";a:1:{s:8:\"callback\";s:23:\"user_admin_access_check\";}s:21:\"admin/user/rules/edit\";a:1:{s:8:\"callback\";s:22:\"user_admin_access_edit\";}s:23:\"admin/user/rules/delete\";a:2:{s:8:\"callback\";s:15:\"drupal_get_form\";s:18:\"callback arguments\";a:1:{i:0;s:32:\"user_admin_access_delete_confirm\";}}s:6:\"logout\";a:1:{s:8:\"callback\";s:11:\"user_logout\";}s:19:\"admin/logs/watchdog\";a:1:{s:8:\"callback\";s:17:\"watchdog_overview\";}s:25:\"admin/logs/page-not-found\";a:2:{s:8:\"callback\";s:12:\"watchdog_top\";s:18:\"callback arguments\";a:1:{i:0;s:14:\"page not found\";}}s:24:\"admin/logs/access-denied\";a:2:{s:8:\"callback\";s:12:\"watchdog_top\";s:18:\"callback arguments\";a:1:{i:0;s:13:\"access denied\";}}s:16:\"admin/logs/event\";a:1:{s:8:\"callback\";s:14:\"watchdog_event\";}}s:7:\"visible\";a:3:{i:1;a:5:{s:5:\"title\";s:10:\"Navigation\";s:4:\"path\";s:0:\"\";s:8:\"children\";a:0:{}s:4:\"type\";i:3;s:3:\"pid\";i:0;}i:2;a:5:{s:5:\"title\";s:13:\"Primary links\";s:4:\"path\";s:0:\"\";s:8:\"children\";a:0:{}s:4:\"type\";s:3:\"115\";s:3:\"pid\";i:0;}i:0;a:4:{s:5:\"title\";s:0:\"\";s:4:\"path\";s:0:\"\";s:8:\"children\";a:2:{i:0;i:1;i:1;i:2;}s:4:\"type\";i:1;}}}',1757580939,1757494539,'');
+/*!40000 ALTER TABLE `cache_menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cache_page`
+--
+
+DROP TABLE IF EXISTS `cache_page`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cache_page` (
+  `cid` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `data` longblob,
+  `expire` int(11) NOT NULL DEFAULT '0',
+  `created` int(11) NOT NULL DEFAULT '0',
+  `headers` text,
+  PRIMARY KEY (`cid`),
+  KEY `expire` (`expire`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cache_page`
+--
+
+LOCK TABLES `cache_page` WRITE;
+/*!40000 ALTER TABLE `cache_page` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cache_page` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comments` (
+  `cid` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NOT NULL DEFAULT '0',
+  `nid` int(11) NOT NULL DEFAULT '0',
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `subject` varchar(64) NOT NULL DEFAULT '',
+  `comment` longtext NOT NULL,
+  `hostname` varchar(128) NOT NULL DEFAULT '',
+  `timestamp` int(11) NOT NULL DEFAULT '0',
+  `score` mediumint(9) NOT NULL DEFAULT '0',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `format` int(11) NOT NULL DEFAULT '0',
+  `thread` varchar(255) NOT NULL,
+  `users` longtext,
+  `name` varchar(60) DEFAULT NULL,
+  `mail` varchar(64) DEFAULT NULL,
+  `homepage` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`cid`),
+  KEY `lid` (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comments`
+--
+
+LOCK TABLES `comments` WRITE;
+/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `file_revisions`
+--
+
+DROP TABLE IF EXISTS `file_revisions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `file_revisions` (
+  `fid` int(10) unsigned NOT NULL DEFAULT '0',
+  `vid` int(10) unsigned NOT NULL DEFAULT '0',
+  `description` varchar(255) NOT NULL DEFAULT '',
+  `list` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`fid`,`vid`),
+  KEY `vid` (`vid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `file_revisions`
+--
+
+LOCK TABLES `file_revisions` WRITE;
+/*!40000 ALTER TABLE `file_revisions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `file_revisions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `files`
+--
+
+DROP TABLE IF EXISTS `files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `files` (
+  `fid` int(10) unsigned NOT NULL DEFAULT '0',
+  `nid` int(10) unsigned NOT NULL DEFAULT '0',
+  `filename` varchar(255) NOT NULL DEFAULT '',
+  `filepath` varchar(255) NOT NULL DEFAULT '',
+  `filemime` varchar(255) NOT NULL DEFAULT '',
+  `filesize` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`fid`),
+  KEY `nid` (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `files`
+--
+
+LOCK TABLES `files` WRITE;
+/*!40000 ALTER TABLE `files` DISABLE KEYS */;
+/*!40000 ALTER TABLE `files` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `filter_formats`
+--
+
+DROP TABLE IF EXISTS `filter_formats`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `filter_formats` (
+  `format` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `roles` varchar(255) NOT NULL DEFAULT '',
+  `cache` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`format`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `filter_formats`
+--
+
+LOCK TABLES `filter_formats` WRITE;
+/*!40000 ALTER TABLE `filter_formats` DISABLE KEYS */;
+INSERT INTO `filter_formats` VALUES (1,'Filtered HTML',',1,2,',1),(2,'PHP code','',0),(3,'Full HTML','',1);
+/*!40000 ALTER TABLE `filter_formats` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `filters`
+--
+
+DROP TABLE IF EXISTS `filters`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `filters` (
+  `format` int(11) NOT NULL DEFAULT '0',
+  `module` varchar(64) NOT NULL DEFAULT '',
+  `delta` tinyint(4) NOT NULL DEFAULT '0',
+  `weight` tinyint(4) NOT NULL DEFAULT '0',
+  KEY `weight` (`weight`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `filters`
+--
+
+LOCK TABLES `filters` WRITE;
+/*!40000 ALTER TABLE `filters` DISABLE KEYS */;
+INSERT INTO `filters` VALUES (1,'filter',3,0),(1,'filter',0,1),(1,'filter',2,2),(2,'filter',1,0),(3,'filter',3,0),(3,'filter',2,1);
+/*!40000 ALTER TABLE `filters` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `flood`
+--
+
+DROP TABLE IF EXISTS `flood`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `flood` (
+  `event` varchar(64) NOT NULL DEFAULT '',
+  `hostname` varchar(128) NOT NULL DEFAULT '',
+  `timestamp` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `flood`
+--
+
+LOCK TABLES `flood` WRITE;
+/*!40000 ALTER TABLE `flood` DISABLE KEYS */;
+/*!40000 ALTER TABLE `flood` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `history`
+--
+
+DROP TABLE IF EXISTS `history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `history` (
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `nid` int(11) NOT NULL DEFAULT '0',
+  `timestamp` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`,`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `history`
+--
+
+LOCK TABLES `history` WRITE;
+/*!40000 ALTER TABLE `history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `menu`
+--
+
+DROP TABLE IF EXISTS `menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `menu` (
+  `mid` int(10) unsigned NOT NULL DEFAULT '0',
+  `pid` int(10) unsigned NOT NULL DEFAULT '0',
+  `path` varchar(255) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT '',
+  `weight` tinyint(4) NOT NULL DEFAULT '0',
+  `type` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`mid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menu`
+--
+
+LOCK TABLES `menu` WRITE;
+/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
+INSERT INTO `menu` VALUES (2,0,'','Primary links','',0,115);
+/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `node`
+--
+
+DROP TABLE IF EXISTS `node`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `node` (
+  `nid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `vid` int(10) unsigned NOT NULL DEFAULT '0',
+  `type` varchar(32) NOT NULL DEFAULT '',
+  `title` varchar(128) NOT NULL DEFAULT '',
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT '1',
+  `created` int(11) NOT NULL DEFAULT '0',
+  `changed` int(11) NOT NULL DEFAULT '0',
+  `comment` int(11) NOT NULL DEFAULT '0',
+  `promote` int(11) NOT NULL DEFAULT '0',
+  `moderate` int(11) NOT NULL DEFAULT '0',
+  `sticky` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`nid`,`vid`),
+  UNIQUE KEY `vid` (`vid`),
+  KEY `node_type` (`type`(4)),
+  KEY `node_title_type` (`title`,`type`(4)),
+  KEY `status` (`status`),
+  KEY `uid` (`uid`),
+  KEY `node_moderate` (`moderate`),
+  KEY `node_promote_status` (`promote`,`status`),
+  KEY `node_created` (`created`),
+  KEY `node_changed` (`changed`),
+  KEY `node_status_type` (`status`,`type`,`nid`),
+  KEY `nid` (`nid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `node`
+--
+
+LOCK TABLES `node` WRITE;
+/*!40000 ALTER TABLE `node` DISABLE KEYS */;
+/*!40000 ALTER TABLE `node` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `node_access`
+--
+
+DROP TABLE IF EXISTS `node_access`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `node_access` (
+  `nid` int(10) unsigned NOT NULL DEFAULT '0',
+  `gid` int(10) unsigned NOT NULL DEFAULT '0',
+  `realm` varchar(255) NOT NULL DEFAULT '',
+  `grant_view` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `grant_update` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `grant_delete` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`nid`,`gid`,`realm`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `node_access`
+--
+
+LOCK TABLES `node_access` WRITE;
+/*!40000 ALTER TABLE `node_access` DISABLE KEYS */;
+INSERT INTO `node_access` VALUES (0,0,'all',1,0,0);
+/*!40000 ALTER TABLE `node_access` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `node_comment_statistics`
+--
+
+DROP TABLE IF EXISTS `node_comment_statistics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `node_comment_statistics` (
+  `nid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `last_comment_timestamp` int(11) NOT NULL DEFAULT '0',
+  `last_comment_name` varchar(60) DEFAULT NULL,
+  `last_comment_uid` int(11) NOT NULL DEFAULT '0',
+  `comment_count` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`nid`),
+  KEY `node_comment_timestamp` (`last_comment_timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `node_comment_statistics`
+--
+
+LOCK TABLES `node_comment_statistics` WRITE;
+/*!40000 ALTER TABLE `node_comment_statistics` DISABLE KEYS */;
+/*!40000 ALTER TABLE `node_comment_statistics` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `node_counter`
+--
+
+DROP TABLE IF EXISTS `node_counter`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `node_counter` (
+  `nid` int(11) NOT NULL DEFAULT '0',
+  `totalcount` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `daycount` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `timestamp` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`nid`),
+  KEY `totalcount` (`totalcount`),
+  KEY `daycount` (`daycount`),
+  KEY `timestamp` (`timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `node_counter`
+--
+
+LOCK TABLES `node_counter` WRITE;
+/*!40000 ALTER TABLE `node_counter` DISABLE KEYS */;
+/*!40000 ALTER TABLE `node_counter` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `node_revisions`
+--
+
+DROP TABLE IF EXISTS `node_revisions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `node_revisions` (
+  `nid` int(10) unsigned NOT NULL,
+  `vid` int(10) unsigned NOT NULL,
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(128) NOT NULL DEFAULT '',
+  `body` longtext NOT NULL,
+  `teaser` longtext NOT NULL,
+  `log` longtext NOT NULL,
+  `timestamp` int(11) NOT NULL DEFAULT '0',
+  `format` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`vid`),
+  KEY `nid` (`nid`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `node_revisions`
+--
+
+LOCK TABLES `node_revisions` WRITE;
+/*!40000 ALTER TABLE `node_revisions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `node_revisions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `node_type`
+--
+
+DROP TABLE IF EXISTS `node_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `node_type` (
+  `type` varchar(32) NOT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `module` varchar(255) NOT NULL,
+  `description` mediumtext NOT NULL,
+  `help` mediumtext NOT NULL,
+  `has_title` tinyint(3) unsigned NOT NULL,
+  `title_label` varchar(255) NOT NULL DEFAULT '',
+  `has_body` tinyint(3) unsigned NOT NULL,
+  `body_label` varchar(255) NOT NULL DEFAULT '',
+  `min_word_count` smallint(5) unsigned NOT NULL,
+  `custom` tinyint(4) NOT NULL DEFAULT '0',
+  `modified` tinyint(4) NOT NULL DEFAULT '0',
+  `locked` tinyint(4) NOT NULL DEFAULT '0',
+  `orig_type` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `node_type`
+--
+
+LOCK TABLES `node_type` WRITE;
+/*!40000 ALTER TABLE `node_type` DISABLE KEYS */;
+INSERT INTO `node_type` VALUES ('page','Page','node','If you want to add a static page, like a contact page or an about page, use a page.','',1,'Title',1,'Body',0,1,1,0,'page'),('story','Story','node','Stories are articles in their simplest form: they have a title, a teaser and a body, but can be extended by other modules. The teaser is part of the body too. Stories may be used as a personal blog or for news articles.','',1,'Title',1,'Body',0,1,1,0,'story');
+/*!40000 ALTER TABLE `node_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permission`
+--
+
+DROP TABLE IF EXISTS `permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permission` (
+  `rid` int(10) unsigned NOT NULL DEFAULT '0',
+  `perm` longtext,
+  `tid` int(10) unsigned NOT NULL DEFAULT '0',
+  KEY `rid` (`rid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permission`
+--
+
+LOCK TABLES `permission` WRITE;
+/*!40000 ALTER TABLE `permission` DISABLE KEYS */;
+INSERT INTO `permission` VALUES (1,'access content',0),(2,'access comments, access content, post comments, post comments without approval',0);
+/*!40000 ALTER TABLE `permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role`
+--
+
+DROP TABLE IF EXISTS `role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role` (
+  `rid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL DEFAULT '',
+  PRIMARY KEY (`rid`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role`
+--
+
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,'anonymous user'),(2,'authenticated user');
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sequences`
+--
+
+DROP TABLE IF EXISTS `sequences`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sequences` (
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `id` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sequences`
+--
+
+LOCK TABLES `sequences` WRITE;
+/*!40000 ALTER TABLE `sequences` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sequences` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sessions`
+--
+
+DROP TABLE IF EXISTS `sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sessions` (
+  `uid` int(10) unsigned NOT NULL,
+  `sid` varchar(64) NOT NULL DEFAULT '',
+  `hostname` varchar(128) NOT NULL DEFAULT '',
+  `timestamp` int(11) NOT NULL DEFAULT '0',
+  `cache` int(11) NOT NULL DEFAULT '0',
+  `session` longtext,
+  PRIMARY KEY (`sid`),
+  KEY `uid` (`uid`),
+  KEY `timestamp` (`timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sessions`
+--
+
+LOCK TABLES `sessions` WRITE;
+/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+INSERT INTO `sessions` VALUES (0,'d57gkhou5blulgi8m9r7an4c01','192.168.97.5',1757494539,0,'');
+/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `system`
+--
+
+DROP TABLE IF EXISTS `system`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system` (
+  `filename` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `type` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT '',
+  `status` int(11) NOT NULL DEFAULT '0',
+  `throttle` tinyint(4) NOT NULL DEFAULT '0',
+  `bootstrap` int(11) NOT NULL DEFAULT '0',
+  `schema_version` smallint(6) NOT NULL DEFAULT '-1',
+  `weight` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`filename`),
+  KEY `weight` (`weight`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `system`
+--
+
+LOCK TABLES `system` WRITE;
+/*!40000 ALTER TABLE `system` DISABLE KEYS */;
+INSERT INTO `system` VALUES ('modules/aggregator/aggregator.module','aggregator','module','Aggregates syndicated content (RSS, RDF, and Atom feeds).',0,0,0,-1,0),('modules/block/block.module','block','module','Controls the boxes that are displayed around the main content.',1,0,0,0,0),('modules/blog/blog.module','blog','module','Enables keeping easily and regularly updated user web pages or blogs.',0,0,0,-1,0),('modules/blogapi/blogapi.module','blogapi','module','Allows users to post content using applications that support XML-RPC blog APIs.',0,0,0,-1,0),('modules/book/book.module','book','module','Allows users to collaboratively author a book.',0,0,0,-1,0),('modules/color/color.module','color','module','Allows the user to change the color scheme of certain themes.',1,0,0,0,0),('modules/comment/comment.module','comment','module','',1,0,0,1,0),('modules/contact/contact.module','contact','module','Enables the use of both personal and site-wide contact forms.',0,0,0,-1,0),('modules/drupal/drupal.module','drupal','module','',0,0,0,-1,0),('modules/filter/filter.module','filter','module','Handles the filtering of content in preparation for display.',1,0,0,0,0),('modules/forum/forum.module','forum','module','Enables threaded discussions about general topics.',0,0,0,-1,0),('modules/help/help.module','help','module','Manages the display of online help.',1,0,0,0,0),('modules/legacy/legacy.module','legacy','module','Provides legacy handlers for upgrades from older Drupal installations.',0,0,0,-1,0),('modules/locale/locale.module','locale','module','Enables the translation of the user interface to languages other than English.',0,0,0,-1,0),('modules/menu/menu.module','menu','module','Allows administrators to customize the site navigation menu.',1,0,0,0,0),('modules/node/node.module','node','module','',1,0,0,0,0),('modules/path/path.module','path','module','Allows users to rename URLs.',0,0,0,-1,0),('modules/ping/ping.module','ping','module','Alerts other sites when your site has been updated.',0,0,0,-1,0),('modules/poll/poll.module','poll','module','',0,0,0,-1,0),('modules/profile/profile.module','profile','module','Supports configurable user profiles.',0,0,0,-1,0),('modules/search/search.module','search','module','Enables site-wide keyword searching.',0,0,0,-1,0),('modules/statistics/statistics.module','statistics','module','Logs access statistics for your site.',0,0,0,-1,0),('modules/system/system.module','system','module','Handles general site configuration for administrators.',1,0,0,1022,0),('modules/taxonomy/taxonomy.module','taxonomy','module','Enables the categorization of content.',1,0,0,0,0),('modules/throttle/throttle.module','throttle','module','Handles the auto-throttling mechanism, to control site congestion.',0,0,0,-1,0),('modules/tracker/tracker.module','tracker','module','Enables tracking of recent posts for users.',0,0,0,-1,0),('modules/upload/upload.module','upload','module','Allows users to upload and attach files to content.',0,0,0,-1,0),('modules/user/user.module','user','module','Manages the user registration and login system.',1,0,0,0,0),('modules/watchdog/watchdog.module','watchdog','module','Logs and records system events.',1,0,0,0,0),('themes/engines/phptemplate/phptemplate.engine','phptemplate','theme_engine','',1,0,0,0,0),('themes/garland/page.tpl.php','garland','theme','themes/engines/phptemplate/phptemplate.engine',1,0,0,0,0);
+/*!40000 ALTER TABLE `system` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `term_data`
+--
+
+DROP TABLE IF EXISTS `term_data`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `term_data` (
+  `tid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `vid` int(10) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `description` longtext,
+  `weight` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`tid`),
+  KEY `vid` (`vid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `term_data`
+--
+
+LOCK TABLES `term_data` WRITE;
+/*!40000 ALTER TABLE `term_data` DISABLE KEYS */;
+/*!40000 ALTER TABLE `term_data` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `term_hierarchy`
+--
+
+DROP TABLE IF EXISTS `term_hierarchy`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `term_hierarchy` (
+  `tid` int(10) unsigned NOT NULL DEFAULT '0',
+  `parent` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`tid`,`parent`),
+  KEY `tid` (`tid`),
+  KEY `parent` (`parent`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `term_hierarchy`
+--
+
+LOCK TABLES `term_hierarchy` WRITE;
+/*!40000 ALTER TABLE `term_hierarchy` DISABLE KEYS */;
+/*!40000 ALTER TABLE `term_hierarchy` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `term_node`
+--
+
+DROP TABLE IF EXISTS `term_node`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `term_node` (
+  `nid` int(10) unsigned NOT NULL DEFAULT '0',
+  `tid` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`tid`,`nid`),
+  KEY `nid` (`nid`),
+  KEY `tid` (`tid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `term_node`
+--
+
+LOCK TABLES `term_node` WRITE;
+/*!40000 ALTER TABLE `term_node` DISABLE KEYS */;
+/*!40000 ALTER TABLE `term_node` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `term_relation`
+--
+
+DROP TABLE IF EXISTS `term_relation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `term_relation` (
+  `tid1` int(10) unsigned NOT NULL DEFAULT '0',
+  `tid2` int(10) unsigned NOT NULL DEFAULT '0',
+  KEY `tid1` (`tid1`),
+  KEY `tid2` (`tid2`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `term_relation`
+--
+
+LOCK TABLES `term_relation` WRITE;
+/*!40000 ALTER TABLE `term_relation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `term_relation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `term_synonym`
+--
+
+DROP TABLE IF EXISTS `term_synonym`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `term_synonym` (
+  `tid` int(10) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  KEY `tid` (`tid`),
+  KEY `name` (`name`(3))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `term_synonym`
+--
+
+LOCK TABLES `term_synonym` WRITE;
+/*!40000 ALTER TABLE `term_synonym` DISABLE KEYS */;
+/*!40000 ALTER TABLE `term_synonym` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `url_alias`
+--
+
+DROP TABLE IF EXISTS `url_alias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `url_alias` (
+  `pid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `src` varchar(128) NOT NULL DEFAULT '',
+  `dst` varchar(128) NOT NULL DEFAULT '',
+  PRIMARY KEY (`pid`),
+  UNIQUE KEY `dst` (`dst`),
+  KEY `src` (`src`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `url_alias`
+--
+
+LOCK TABLES `url_alias` WRITE;
+/*!40000 ALTER TABLE `url_alias` DISABLE KEYS */;
+/*!40000 ALTER TABLE `url_alias` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `name` varchar(60) NOT NULL DEFAULT '',
+  `pass` varchar(32) NOT NULL DEFAULT '',
+  `mail` varchar(64) DEFAULT '',
+  `mode` tinyint(4) NOT NULL DEFAULT '0',
+  `sort` tinyint(4) DEFAULT '0',
+  `threshold` tinyint(4) DEFAULT '0',
+  `theme` varchar(255) NOT NULL DEFAULT '',
+  `signature` varchar(255) NOT NULL DEFAULT '',
+  `created` int(11) NOT NULL DEFAULT '0',
+  `access` int(11) NOT NULL DEFAULT '0',
+  `login` int(11) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `timezone` varchar(8) DEFAULT NULL,
+  `language` varchar(12) NOT NULL DEFAULT '',
+  `picture` varchar(255) NOT NULL DEFAULT '',
+  `init` varchar(64) DEFAULT '',
+  `data` longtext,
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `name` (`name`),
+  KEY `created` (`created`),
+  KEY `access` (`access`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (0,'','','',0,0,0,'','',0,0,0,0,NULL,'','','',NULL);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users_roles`
+--
+
+DROP TABLE IF EXISTS `users_roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users_roles` (
+  `uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `rid` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`,`rid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users_roles`
+--
+
+LOCK TABLES `users_roles` WRITE;
+/*!40000 ALTER TABLE `users_roles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users_roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `variable`
+--
+
+DROP TABLE IF EXISTS `variable`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `variable` (
+  `name` varchar(48) NOT NULL DEFAULT '',
+  `value` longtext NOT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `variable`
+--
+
+LOCK TABLES `variable` WRITE;
+/*!40000 ALTER TABLE `variable` DISABLE KEYS */;
+INSERT INTO `variable` VALUES ('comment_page','i:0;'),('filter_html_1','i:1;'),('install_profile','s:7:\"default\";'),('menu_primary_menu','i:2;'),('menu_secondary_menu','i:2;'),('node_options_forum','a:1:{i:0;s:6:\"status\";}'),('node_options_page','a:1:{i:0;s:6:\"status\";}'),('theme_default','s:7:\"garland\";'),('theme_settings','a:1:{s:21:\"toggle_node_info_page\";b:0;}');
+/*!40000 ALTER TABLE `variable` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vocabulary`
+--
+
+DROP TABLE IF EXISTS `vocabulary`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vocabulary` (
+  `vid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `description` longtext,
+  `help` varchar(255) NOT NULL DEFAULT '',
+  `relations` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `hierarchy` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `multiple` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `required` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `tags` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `module` varchar(255) NOT NULL DEFAULT '',
+  `weight` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`vid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vocabulary`
+--
+
+LOCK TABLES `vocabulary` WRITE;
+/*!40000 ALTER TABLE `vocabulary` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vocabulary` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vocabulary_node_types`
+--
+
+DROP TABLE IF EXISTS `vocabulary_node_types`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vocabulary_node_types` (
+  `vid` int(10) unsigned NOT NULL DEFAULT '0',
+  `type` varchar(32) NOT NULL DEFAULT '',
+  PRIMARY KEY (`vid`,`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vocabulary_node_types`
+--
+
+LOCK TABLES `vocabulary_node_types` WRITE;
+/*!40000 ALTER TABLE `vocabulary_node_types` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vocabulary_node_types` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `watchdog`
+--
+
+DROP TABLE IF EXISTS `watchdog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `watchdog` (
+  `wid` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `type` varchar(16) NOT NULL DEFAULT '',
+  `message` longtext NOT NULL,
+  `severity` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `link` varchar(255) NOT NULL DEFAULT '',
+  `location` text NOT NULL,
+  `referer` varchar(128) NOT NULL DEFAULT '',
+  `hostname` varchar(128) NOT NULL DEFAULT '',
+  `timestamp` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`wid`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `watchdog`
+--
+
+LOCK TABLES `watchdog` WRITE;
+/*!40000 ALTER TABLE `watchdog` DISABLE KEYS */;
+INSERT INTO `watchdog` VALUES (1,0,'php','<em>syntax error, unexpected BOOL_TRUE in modules/comment/comment.info on line 2\n</em> in <em>/var/www/html/includes/module.inc</em> on line <em>194</em>.',2,'','https://drupal5.ddev.site/install.php?profile=default','https://drupal5.ddev.site/install.php?profile=default','192.168.97.5',1757494532),(2,0,'php','<em>syntax error, unexpected BOOL_TRUE in modules/drupal/drupal.info on line 2\n</em> in <em>/var/www/html/includes/module.inc</em> on line <em>194</em>.',2,'','https://drupal5.ddev.site/install.php?profile=default','https://drupal5.ddev.site/install.php?profile=default','192.168.97.5',1757494532),(3,0,'php','<em>syntax error, unexpected BOOL_TRUE in modules/node/node.info on line 2\n</em> in <em>/var/www/html/includes/module.inc</em> on line <em>194</em>.',2,'','https://drupal5.ddev.site/install.php?profile=default','https://drupal5.ddev.site/install.php?profile=default','192.168.97.5',1757494532),(4,0,'php','<em>syntax error, unexpected BOOL_TRUE in modules/poll/poll.info on line 2\n</em> in <em>/var/www/html/includes/module.inc</em> on line <em>194</em>.',2,'','https://drupal5.ddev.site/install.php?profile=default','https://drupal5.ddev.site/install.php?profile=default','192.168.97.5',1757494532);
+/*!40000 ALTER TABLE `watchdog` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-09-10  9:57:16
