@@ -39,3 +39,11 @@ ErrorDocument 500 /error.php
    php_value session.cache_expire    200000
    php_value session.save_path       /tmp/dropsessions
 </IfModule>
+
+# Enable clean URLs.
+RewriteEngine on
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !=/favicon.ico
+RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]

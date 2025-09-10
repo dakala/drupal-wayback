@@ -84,7 +84,8 @@ VALUES
     ('node_options_forum','a:1:{i:0;s:6:\"status\";}'),
     ('node_options_page','a:1:{i:0;s:6:\"status\";}'),
     ('theme_default','s:7:\"garland\";'),
-    ('theme_settings','a:1:{s:21:\"toggle_node_info_page\";b:0;}');
+    ('theme_settings','a:1:{s:21:\"toggle_node_info_page\";b:0;}'),
+    ('clean_url','s:1:\"1\";');
 
 
 -- Demo data
