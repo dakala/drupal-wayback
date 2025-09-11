@@ -15,8 +15,6 @@ drush site-install  --yes \
 
 # Enable clean URL.
 drush variable:set clean_url 1
-# Disable admin overlay module.
-drush pm:disable overlay --yes
 
 # Create data.
 drush php-script data --script-path=/var/www/html/database/
