@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ## Description: install Drush inside the web container
-## Usage: install-drush
-## Example: "ddev install-drush"
+## Usage: drush-install
+## Example: "ddev drush-install"
 
 echo "Installing Drush..."
 

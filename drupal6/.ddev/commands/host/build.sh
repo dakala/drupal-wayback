@@ -6,5 +6,5 @@
 
 ddev start
 ddev auth ssh
-ddev install-drush
+ddev drush-install
 ddev site-install
