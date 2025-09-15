@@ -1,0 +1,6 @@
+# Ignore all IDE-related artifacts
+.DS_Store
+.idea
+__MACOSX
+
+
