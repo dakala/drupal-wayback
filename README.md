@@ -2,9 +2,9 @@
 
 This is a showcase of all major Drupal versions from Drupal 1 to 11.
 
-A lot of these legacy versions are no longer supported, and it's difficult to get some working properly (e.g. Drupal 1, 2 and 3). However, thanks to [DDEV](https://ddev.com/) we are able to experience what it was like over 20 years ago. 
+Legacy versions are no longer supported and it's difficult to get some really ancient versions working properly (e.g. Drupal 1, 2 and 3). However, thanks to [DDEV](https://ddev.com/) we are able to experience (almost) what it was like over 20 years ago. 
 
-## Pre-requisite
+## Prerequisites
 
 You must have the following applications:
 
@@ -19,6 +19,6 @@ You must have the following applications:
 3. Run `ddev build`
 4. Run `ddev launch` to view the site in your default browser. 
 
-Note: Username/Password: **admin / Passw0rd** 
+Note: Username/Password: **admin / Passw0rd**
 
 
