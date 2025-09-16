@@ -14,7 +14,7 @@ drush site-install  --yes \
   --account-mail=admin@example.com
 
 # Enable clean URL.
-drush variable_set('clean_url', '1');
+drush variable_set clean_url 1
 
 # Create data.
 drush php-script data --script-path=/var/www/html/database/

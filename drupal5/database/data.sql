@@ -85,6 +85,8 @@ VALUES
     ('node_options_page','a:1:{i:0;s:6:\"status\";}'),
     ('theme_default','s:7:\"garland\";'),
     ('theme_settings','a:1:{s:21:\"toggle_node_info_page\";b:0;}'),
+    ('site_mail', 's:17:"admin@example.com";'),
+    ('site_name', 's:8:"Drupal 5";'),
     ('clean_url','s:1:\"1\";');
 
 
