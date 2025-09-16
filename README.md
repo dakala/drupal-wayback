@@ -15,7 +15,7 @@ You must have the following applications:
 ## Installation
 
 1. Clone the repository.
-2. Change directory to any of the versions e.g. `cd drupal7`
+2. Change directory to any of the versions e.g. `cd drupal07`
 3. Run `ddev build`
 4. Run `ddev launch` to view the site in your default browser. 
 
