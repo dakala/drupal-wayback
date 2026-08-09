@@ -2,27 +2,29 @@
 
 class User {
   function User($userid, $passwd = 0) {
+    $remote_addr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
     if ($passwd) {
       $result = db_query("SELECT * FROM users WHERE LOWER(userid) = LOWER('$userid') && passwd = PASSWORD('$passwd') && STATUS = 2");
       if (db_num_rows($result) == 1) {
-        foreach (db_fetch_row($result) as $key=>$value) { $field = mysql_field_name($result, $key); $this->$field = stripslashes($value); $this->field[] = $field; }
-        db_query("UPDATE users SET last_access = '". time() ."', last_host = '$GLOBALS[REMOTE_ADDR]' WHERE id = $this->id");
+        foreach (db_fetch_row($result) as $key=>$value) { $fieldInfo = $result->fetch_field_direct($key); $field = $fieldInfo->name; $this->$field = stripslashes($value); $this->field[] = $field; }
+        db_query("UPDATE users SET last_access = '". time() ."', last_host = '$remote_addr' WHERE id = $this->id");
       }
     }
     else {
       $result = db_query("SELECT * FROM users WHERE userid = '$userid' && STATUS = 2");
       if (db_num_rows($result) == 1) {
-        foreach (db_fetch_row($result) as $key=>$value) { $field = mysql_field_name($result, $key); $this->$field = stripslashes($value); $this->field[] = $field; }
-        db_query("UPDATE users SET last_access = '". time() ."', last_host = '$GLOBALS[REMOTE_ADDR]' WHERE id = $this->id");
+        foreach (db_fetch_row($result) as $key=>$value) { $fieldInfo = $result->fetch_field_direct($key); $field = $fieldInfo->name; $this->$field = stripslashes($value); $this->field[] = $field; }
+        db_query("UPDATE users SET last_access = '". time() ."', last_host = '$remote_addr' WHERE id = $this->id");
       }
     }
   }
 }
 
 function user_init() {
-  global $db_name;
+  global $db_name, $user;
   session_name($db_name);
   session_start();
+  $user = isset($_SESSION['user']) ? $_SESSION['user'] : NULL;
 }
 
 function user_load($username) {
@@ -30,6 +32,7 @@ function user_load($username) {
 }
 
 function user_save($account, $array) {
+  $remote_addr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
   // dynamically compose query:
   foreach ($array as $key=>$value) {
     if ($key == "passwd") $query .= "$key = PASSWORD('". addslashes($value) ."'), ";
@@ -37,8 +40,8 @@ function user_save($account, $array) {
   }
 
   // update or instert account:
-  if ($account->id) db_query("UPDATE users SET $query last_access = '". time() ."', last_host = '$GLOBALS[REMOTE_ADDR]' WHERE id = '$account->id'");
-  else db_query("INSERT INTO users SET $query last_access = '". time() ."', last_host = '$GLOBALS[REMOTE_ADDR]'");
+  if ($account->id) db_query("UPDATE users SET $query last_access = '". time() ."', last_host = '$remote_addr' WHERE id = '$account->id'");
+  else db_query("INSERT INTO users SET $query last_access = '". time() ."', last_host = '$remote_addr'");
 
   // return account:
   return user_load(($account->userid ? $account->userid : $array["userid"]));

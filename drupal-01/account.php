@@ -59,7 +59,6 @@ function account_session_start($userid, $passwd) {
 
   $user = new User($userid, $passwd);
   if ($user->id) {
-    session_start();
     $_SESSION['user'] = $user;
     watchdog("message", "session opened for user `$user->userid'");
   }
@@ -144,6 +143,9 @@ function account_site_edit() {
   global $theme, $themes, $user;
 
   $output = '';
+  $options1 = '';
+  $options2 = '';
+  $options3 = '';
 
   if ($user->id) {
     $output .= "<FORM ACTION=\"account.php\" METHOD=\"post\">\n";
@@ -455,6 +457,7 @@ function account_password($min_length=6) {
 function account_track_comments() {
   global $theme, $user;
 
+  $output = '';
   $msg = "<P>This page might be helpful in case you want to keep track of your recent comments in any of the current discussions.  You are presented an overview of your comments in each of the stories you participated in along with the number of replies each comment got.\n<P>\n"; 
 
   $sresult = db_query("SELECT s.id, s.subject, COUNT(s.id) as count FROM comments c LEFT JOIN stories s ON c.sid = s.id WHERE c.author = $user->id GROUP BY s.id DESC LIMIT 5");
@@ -470,7 +473,7 @@ function account_track_comments() {
     $output .= " </UL>\n";
   }
 
-  $output = ($output) ? "$msg $output" : "$info <CENTER>You have not posted any comments recently.</CENTER>\n";
+  $output = ($output) ? "$msg $output" : "$msg <CENTER>You have not posted any comments recently.</CENTER>\n";
 
   $theme->header();
   $theme->box("Track your comments", $output);
@@ -502,6 +505,9 @@ function account_track_site() {
   global $theme, $user, $site_name;
 
   $block1 = $block2 = '';
+  $stories_posters = '';
+  $comments_posters = '';
+  $diaries_posters = '';
 
   $result1 = db_query("SELECT c.cid, c.pid, c.sid, c.subject, u.userid, s.subject AS story FROM comments c LEFT JOIN users u ON u.id = c.author LEFT JOIN stories s ON s.id = c.sid WHERE s.status = 2 ORDER BY cid DESC LIMIT 10");
 

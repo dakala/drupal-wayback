@@ -107,6 +107,9 @@ function story_add_save($edit) {
 function story_edit($id) {
   global $allowed_html;
 
+  $output = '';
+  $options = '';
+
   $result = db_query("SELECT s.*, u.userid FROM stories s LEFT JOIN users u ON s.author = u.id WHERE s.id = '$id'");
   $story = db_fetch_object($result);
 

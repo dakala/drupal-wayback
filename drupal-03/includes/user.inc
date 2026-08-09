@@ -24,9 +24,10 @@ function user_get($uid) {
 }
 
 function user_init() {
-  global $db_name;
+  global $db_name, $user;
   session_name($db_name);
   session_start();
+  $user = isset($_SESSION['user']) ? $_SESSION['user'] : NULL;
 }
 
 function user_load($username) {

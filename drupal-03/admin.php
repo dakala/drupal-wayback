@@ -2,6 +2,9 @@
 
 include_once "includes/common.inc";
 
+extract($_GET, EXTR_OVERWRITE);
+extract($_POST, EXTR_OVERWRITE);
+
 function status($message) {
   if ($message) return "<B>Status:</B> $message<HR>\n";
 }

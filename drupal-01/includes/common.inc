@@ -8,10 +8,7 @@ include_once "includes/module.inc";
 include_once "includes/theme.inc";
 include_once "includes/user.inc";
 
-if(session_id() != '' && !isset($_SESSION)){
-  // Start session if it is not started yet
-  session_start();
-}
+user_init();
 
 $theme = load_theme();
 

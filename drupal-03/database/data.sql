@@ -1,7 +1,7 @@
 INSERT INTO `users`
     (`id`, `name`, `userid`, `passwd`, `real_email`, `fake_email`, `url`, `nodes`, `mode`, `sort`, `threshold`, `bio`, `theme`, `signature`, `last_access`, `last_host`, `status`, `hash`, `rating`, `timezone`, `language`, `role`)
 VALUES
-    (1,'','admin','*DDFB542AA0BD1D251995D81AEBEB96DEEAD1132F','admin@example.com','','',10,1,0,0,NULL,'','',NULL,'',1,'9e10edfbcb6b', NULL,NULL, 'en', '');
+    (1,'','admin','*DDFB542AA0BD1D251995D81AEBEB96DEEAD1132F','admin@example.com','','',10,1,0,0,NULL,'','',NULL,'',2,'9e10edfbcb6b', NULL,NULL, 'en', '');
 
 
 INSERT INTO `node`

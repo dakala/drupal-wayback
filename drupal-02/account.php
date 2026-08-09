@@ -135,6 +135,13 @@ function account_site_edit() {
   global $cmodes, $corder, $theme, $themes, $languages, $user;
 
   $output = "";
+  $options1 = '';
+  $options2 = '';
+  $options3 = '';
+  $options4 = '';
+  $options5 = '';
+  $options6 = '';
+  $options7 = '';
 
   if ($user->id) {
     $output .= "<FORM ACTION=\"account.php\" METHOD=\"post\">\n";

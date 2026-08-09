@@ -2,6 +2,10 @@
 
 include "includes/common.inc";
 
+extract($_GET, EXTR_OVERWRITE);
+extract($_POST, EXTR_OVERWRITE);
+$mod = isset($_GET['mod']) ? $_GET['mod'] : '';
+
 // validate user permission:
 if (!($user->permissions == 1 || $user->id == 1)) exit();
 
@@ -10,7 +14,8 @@ function admin_page($mod) {
 
   function module($name, $module) {
     global $menu, $modules;
-    if ($module["admin"]) $output .= "<A HREF=\"admin.php?mod=$name\">$name</A> | ";
+    $output = '';
+    if (!empty($module["admin"])) $output .= "<A HREF=\"admin.php?mod=$name\">$name</A> | ";
     $menu .= $output;
   }
 
@@ -37,7 +42,7 @@ function admin_page($mod) {
     <HR><?php echo $menu; ?><A HREF="">home</A><HR>
  <?php
 
-  module_execute($mod, "admin");
+  if ($mod) module_execute($mod, "admin");
 
  ?>
   </BODY>

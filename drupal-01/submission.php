@@ -3,8 +3,15 @@
 include "includes/submission.inc";
 include "includes/common.inc";
 
+$op = isset($_REQUEST['op']) ? $_REQUEST['op'] : '';
+$id = isset($_REQUEST['id']) ? $_REQUEST['id'] : '';
+$vote = isset($_POST['vote']) ? $_POST['vote'] : '';
+$comment = isset($_POST['comment']) ? $_POST['comment'] : '';
+
 function submission_display_main() {
-  global $theme, $user;
+  global $theme, $user, $bgcolor1;
+
+  $content = '';
 
   // Perform query:
   $result = db_query("SELECT s.*, u.userid FROM stories s LEFT JOIN users u ON s.author = u.id WHERE s.status = 1 ORDER BY s.id");

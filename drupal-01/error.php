@@ -41,6 +41,8 @@ function error_httpd() {
 
 include "includes/common.inc";
 
+$op = isset($_REQUEST['op']) ? $_REQUEST['op'] : '';
+
 switch ($op) {
   case "flood":
     error_flood();    

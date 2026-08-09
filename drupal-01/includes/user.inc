@@ -4,10 +4,17 @@ class User {
   function User($userid, $passwd = "") {
     $result = db_query("SELECT * FROM users WHERE LOWER(userid) = LOWER('$userid') && passwd = PASSWORD('$passwd') && STATUS = 2");
     if (db_num_rows($result) == 1) {
-      foreach (db_fetch_row($result) as $key=>$value) { $field = mysql_field_name($result, $key); $this->$field = stripslashes($value); $this->field[] = $field; }
-      db_query("UPDATE users SET last_access = '". time() ."', last_host = '$_SERVER[REMOTE_HOST]' WHERE id = $this->id");
+      foreach (db_fetch_row($result) as $key=>$value) { $fieldInfo = $result->fetch_field_direct($key); $field = $fieldInfo->name; $this->$field = stripslashes($value); $this->field[] = $field; }
+      $remote_host = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : $_SERVER['REMOTE_ADDR'];
+      db_query("UPDATE users SET last_access = '". time() ."', last_host = '$remote_host' WHERE id = $this->id");
     }
   }
+}
+
+function user_init() {
+  global $user;
+  if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+  $user = isset($_SESSION['user']) ? $_SESSION['user'] : NULL;
 }
 
 function user_save($data, $id = 0) {
