@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+readonly repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly requested_project="${1:-all}"
+readonly projects=(drupal-08 drupal-09 drupal-10 drupal-11)
+
+update_project() {
+    local project="$1"
+
+    echo "Updating ${project}..."
+    cd "${repo_dir}/${project}"
+    ddev start
+
+    case "${project}" in
+        drupal-08|drupal-09)
+            echo "${project}: end-of-life core is already at its final release; installing the locked dependencies."
+            ddev composer install --no-interaction
+            ;;
+        *)
+            ddev composer update --with-all-dependencies --no-interaction
+            ;;
+    esac
+
+    if ddev drush status --field=bootstrap 2>/dev/null | grep -q 'Successful'; then
+        ddev drush updatedb --yes
+        ddev drush cache:rebuild
+    else
+        echo "${project}: dependencies updated; run 'ddev build' to install the showcase site."
+    fi
+}
+
+case "${requested_project}" in
+    all)
+        for project in "${projects[@]}"; do
+            update_project "${project}"
+        done
+        ;;
+    drupal-08|drupal-09|drupal-10|drupal-11)
+        update_project "${requested_project}"
+        ;;
+    *)
+        echo "Usage: $0 [all|drupal-08|drupal-09|drupal-10|drupal-11]" >&2
+        exit 2
+        ;;
+esac

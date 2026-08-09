@@ -16,5 +16,10 @@ ddev drush site:install standard --yes \
   --account-pass="Passw0rd" \
   --account-mail=admin@example.com
 
+# Drupal 11.4 moved the Standard configuration and Basic page content type into
+# separate recipes, so apply both before creating the demo content.
+ddev drush recipe /var/www/html/web/core/recipes/standard --yes
+ddev drush recipe /var/www/html/web/core/recipes/page_content_type --yes
+
 # Create demo content.
 ddev drush php-script data --script-path=/var/www/html/database/
