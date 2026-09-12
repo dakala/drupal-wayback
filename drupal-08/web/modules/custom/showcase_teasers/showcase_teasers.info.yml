@@ -1,0 +1,5 @@
+name: Showcase teasers
+type: module
+description: Aligns showcase teaser images with their titles and summaries.
+package: Custom
+core_version_requirement: ^8 || ^9 || ^10 || ^11

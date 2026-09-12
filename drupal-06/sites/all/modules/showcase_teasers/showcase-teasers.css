@@ -1,0 +1,15 @@
+.node:has(.showcase-teaser-image) {
+  position: relative;
+  min-height: 135px;
+  padding-left: 256px;
+}
+
+.node .showcase-teaser-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 135px;
+  margin: 0;
+  object-fit: cover;
+}

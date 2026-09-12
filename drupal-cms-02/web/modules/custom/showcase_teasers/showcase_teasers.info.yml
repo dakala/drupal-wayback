@@ -1,0 +1,5 @@
+name: Showcase teasers
+type: module
+description: Provides the compact, old-school news teaser layout for the showcase.
+package: Custom
+core_version_requirement: ^10.3 || ^11

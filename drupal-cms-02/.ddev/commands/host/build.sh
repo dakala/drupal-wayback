@@ -18,4 +18,5 @@ ddev drush site:install drupal_cms_installer --yes \
   --account-pass="Passw0rd" \
   --account-mail=admin@example.com
 
+ddev drush pm:enable showcase_teasers --yes
 ddev drush php-script data --script-path=/var/www/html/database/

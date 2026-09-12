@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Implements hook_page_attachments().
+ */
+function showcase_teasers_page_attachments(array &$attachments): void {
+  if (\Drupal::service('path.matcher')->isFrontPage()) {
+    $attachments['#attached']['library'][] = 'showcase_teasers/frontpage';
+  }
+}

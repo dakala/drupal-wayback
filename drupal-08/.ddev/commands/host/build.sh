@@ -17,4 +17,5 @@ ddev drush site:install standard --yes \
   --account-mail=admin@example.com
 
 # Create demo content.
+ddev drush pm:enable showcase_teasers --yes
 ddev drush php-script data --script-path=/var/www/html/database/

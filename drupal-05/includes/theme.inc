@@ -668,6 +668,8 @@ function theme_help() {
  *   A string containing the node output.
  */
 function theme_node($node, $teaser = FALSE, $page = FALSE) {
+  $showcase_teaser = $teaser && strpos($node->teaser, 'showcase-teaser-image') !== FALSE;
+  $output = $showcase_teaser ? '<div style="position:relative;min-height:135px;padding-left:256px">' : '';
   if (!$node->status) {
     $output  = '<div class="node-unpublished">';
   }
@@ -699,6 +701,10 @@ function theme_node($node, $teaser = FALSE, $page = FALSE) {
   }
 
   if (!$node->status) {
+    $output .= '</div>';
+  }
+
+  if ($showcase_teaser) {
     $output .= '</div>';
   }
 
@@ -1120,4 +1126,3 @@ function _theme_table_cell($cell, $header = FALSE) {
 
   return $output;
 }
-

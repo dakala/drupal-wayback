@@ -1,0 +1,3 @@
+name = Showcase teasers
+description = Aligns showcase teaser images with their titles and summaries.
+core = 7.x

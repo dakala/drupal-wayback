@@ -1,0 +1,30 @@
+.node--view-mode-teaser:has(.showcase-teaser-image) {
+  position: relative;
+  min-height: 135px;
+  padding-inline-start: 256px;
+}
+
+.node--view-mode-teaser .showcase-teaser-image {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  display: block;
+  width: 240px;
+  height: 135px;
+  margin: 0;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+  .node--view-mode-teaser:has(.showcase-teaser-image) {
+    min-height: 96px;
+    padding-inline-start: 44%;
+  }
+
+  .node--view-mode-teaser .showcase-teaser-image {
+    width: 40%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}

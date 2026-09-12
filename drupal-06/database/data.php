@@ -64,8 +64,19 @@ $articles = [
 
 ];
 
-foreach ($articles as $article) {
+$article_images = [
+  ['file' => 'ai.jpg', 'alt' => 'A robotic hand reaching towards an artificial intelligence network'],
+  ['file' => 'glastonbury.jpg', 'alt' => 'Aerial view of Glastonbury Festival at Worthy Farm'],
+  ['file' => 'arsenal-champs-2026.jpg', 'alt' => 'Arsenal players celebrating with the Premier League trophy'],
+  ['file' => 'nollywood.jpg', 'alt' => 'Nollywood sign and Nigerian flag on a sunlit hillside'],
+  ['file' => 'poland-warsaw.jpg', 'alt' => 'Warsaw Old Town and Castle Square in Poland'],
+];
+
+foreach ($articles as $index => $article) {
   $article = (object) $article;
+  $image = $article_images[$index];
+  $article->teaser = '<img class="showcase-teaser-image" src="/showcase-images/' . $image['file'] . '" alt="' . $image['alt'] . '" width="240" height="135" style="float:left;width:240px;max-width:42%;height:auto;margin:0 1em .5em 0">' . $article->teaser;
+  $article->body = '<p><img src="/showcase-images/' . $image['file'] . '" alt="' . $image['alt'] . '" width="1200" height="675" style="display:block;max-width:100%;height:auto;margin:0 0 1.5em;border-radius:10px"></p>' . $article->body;
 
   $node = new stdClass();
   $node->type = 'story';
@@ -74,7 +85,7 @@ foreach ($articles as $article) {
   $node->body = $article->body;
   $node->uid = 1;
   $node->status = 1;
-  $node->promote = 0;
+  $node->promote = 1;
   $node->sticky = 0;
 
   node_object_prepare($node);

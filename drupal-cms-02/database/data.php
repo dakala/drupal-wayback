@@ -1,5 +1,7 @@
 <?php
 
+use Drupal\Core\File\FileExists;
+use Drupal\media\Entity\Media;
 use Drupal\node\Entity\Node;
 
 // Match the other showcase sites by using Drupal's promoted-content listing
@@ -84,11 +86,47 @@ HTML,
 
 ];
 
+$article_images = [
+  ['file' => 'ai.jpg', 'alt' => 'A robotic hand reaching towards an artificial intelligence network'],
+  ['file' => 'glastonbury.jpg', 'alt' => 'Aerial view of Glastonbury Festival at Worthy Farm'],
+  ['file' => 'arsenal-champs-2026.jpg', 'alt' => 'Arsenal players celebrating with the Premier League trophy'],
+  ['file' => 'nollywood.jpg', 'alt' => 'Nollywood sign and Nigerian flag on a sunlit hillside'],
+  ['file' => 'poland-warsaw.jpg', 'alt' => 'Warsaw Old Town and Castle Square in Poland'],
+];
+
+$featured_images = [];
+$image_directory = 'public://showcase-images';
+\Drupal::service('file_system')->prepareDirectory(
+  $image_directory,
+  \Drupal\Core\File\FileSystemInterface::CREATE_DIRECTORY,
+);
+foreach ($article_images as $image) {
+  $file = \Drupal::service('file.repository')->writeData(
+    file_get_contents(DRUPAL_ROOT . '/showcase-images/' . $image['file']),
+    'public://showcase-images/' . $image['file'],
+    FileExists::Replace,
+  );
+  $media = Media::create([
+    'bundle' => 'image',
+    'name' => $image['alt'],
+    'field_media_image' => [
+      'target_id' => $file->id(),
+      'alt' => $image['alt'],
+    ],
+    'status' => 1,
+  ]);
+  $media->save();
+  $featured_images[] = ['id' => $media->id(), 'uuid' => $media->uuid()];
+}
+
 foreach ($articles as $index => $article) {
+  $image = $article_images[$index];
+  $article['body'] = '<drupal-media data-entity-type="media" data-entity-uuid="' . $featured_images[$index]['uuid'] . '" data-view-mode="default" alt="' . $image['alt'] . '"></drupal-media>' . $article['body'];
   $page = Node::create([
     'type' => 'page',
     'title' => $article['title'],
     'field_description' => $article['teaser'],
+    'field_featured_image' => ['target_id' => $featured_images[$index]['id']],
     'field_content' => [
       'value' => $article['body'],
       'format' => 'content_format',

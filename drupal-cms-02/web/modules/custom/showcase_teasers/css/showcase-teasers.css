@@ -1,0 +1,48 @@
+.path-frontpage .view-frontpage .views-row article {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  column-gap: 1rem;
+  margin-block-end: 2rem;
+}
+
+.path-frontpage .view-frontpage .views-row article > h2 {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  margin-block-start: 0;
+}
+
+.path-frontpage .view-frontpage .views-row article > div {
+  display: contents;
+}
+
+.path-frontpage .view-frontpage .views-row article > div > div:first-child {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: start;
+}
+
+.path-frontpage .view-frontpage .views-row article > div > div:last-child {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+}
+
+.path-frontpage .view-frontpage .views-row picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .path-frontpage .view-frontpage .views-row article {
+    grid-template-columns: min(38%, 180px) minmax(0, 1fr);
+  }
+
+  .path-frontpage .view-frontpage .views-row article > h2 {
+    font-size: 1.25rem;
+  }
+}

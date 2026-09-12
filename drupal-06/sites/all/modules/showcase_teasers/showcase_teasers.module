@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Implements hook_init().
+ */
+function showcase_teasers_init() {
+  drupal_add_css(drupal_get_path('module', 'showcase_teasers') . '/showcase-teasers.css');
+}

@@ -64,15 +64,26 @@ $articles = [
 
 ];
 
-foreach ($articles as $article) {
+$article_images = [
+  ['file' => 'ai.jpg', 'alt' => 'A robotic hand reaching towards an artificial intelligence network'],
+  ['file' => 'glastonbury.jpg', 'alt' => 'Aerial view of Glastonbury Festival at Worthy Farm'],
+  ['file' => 'arsenal-champs-2026.jpg', 'alt' => 'Arsenal players celebrating with the Premier League trophy'],
+  ['file' => 'nollywood.jpg', 'alt' => 'Nollywood sign and Nigerian flag on a sunlit hillside'],
+  ['file' => 'poland-warsaw.jpg', 'alt' => 'Warsaw Old Town and Castle Square in Poland'],
+];
+
+foreach ($articles as $index => $article) {
   $article = (object) $article;
+  $image = $article_images[$index];
+  $article->teaser = '<img class="showcase-teaser-image" src="/showcase-images/' . $image['file'] . '" alt="' . $image['alt'] . '" width="240" height="135" loading="lazy" style="float:left;width:240px;max-width:42%;height:auto;margin:0 1em .5em 0;border-radius:8px">' . $article->teaser;
+  $article->body = '<p><img src="/showcase-images/' . $image['file'] . '" alt="' . $image['alt'] . '" width="1200" height="675" loading="lazy" style="display:block;width:100%;height:auto;margin:0 0 1.5rem;border-radius:12px"></p>' . $article->body;
 
   $page = Node::create(['type' => 'page']);
   $page->set('title', $article->title);
   $page->set('body', [
     'value' => $article->body,
     'summary' => $article->teaser,
-    'format' => 'basic_html',
+    'format' => 'full_html',
   ]);
   $page->set('promote', 1);
   $page->enforceIsNew();

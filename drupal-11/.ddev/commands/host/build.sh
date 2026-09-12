@@ -22,4 +22,5 @@ ddev drush recipe /var/www/html/web/core/recipes/standard --yes
 ddev drush recipe /var/www/html/web/core/recipes/page_content_type --yes
 
 # Create demo content.
+ddev drush pm:enable showcase_teasers --yes
 ddev drush php-script data --script-path=/var/www/html/database/

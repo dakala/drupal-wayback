@@ -17,4 +17,5 @@ drush site-install  --yes \
 drush variable_set clean_url 1
 
 # Create data.
+drush pm-enable showcase_teasers --yes
 drush php-script data --script-path=/var/www/html/database/

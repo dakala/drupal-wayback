@@ -76,9 +76,9 @@
 
       print "\n<!-- story: \"$story->subject\" -->\n";     
       ?>
-      <TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" BGCOLOR="<?php echo $this->brcolor1; ?>" WIDTH="100%">
+      <TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" BGCOLOR="<?php echo $this->brcolor1; ?>" WIDTH="100%" STYLE="position:relative;min-height:135px">
       <TR><TD>
-       <TABLE BORDER="0" CELLPADDING="4" CELLSPACING="1" WIDTH="100%">
+       <TABLE BORDER="0" CELLPADDING="4" CELLSPACING="1" WIDTH="100%" STYLE="box-sizing:border-box;padding-left:256px">
         <TR><TD BGCOLOR="<?php echo $this->bgcolor1; ?>" COLSPAN="2"><FONT COLOR="<?php echo $this->fgcolor1; ?>"><B><?php echo "". check_output($story->subject, 1) .""; ?></B></FONT></TD></TR>
         <TR BGCOLOR="<?php echo $this->bgcolor2; ?>">
          <?php

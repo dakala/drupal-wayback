@@ -1,0 +1,4 @@
+frontpage:
+  css:
+    theme:
+      css/showcase-teasers.css: {}
